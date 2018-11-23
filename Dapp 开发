@@ -1,0 +1,74 @@
+windows下 nodejs：
+
+	1、创建nodejs项目
+	2、安装依赖
+		主要有web3，web3admin，express，http等
+		安装web3失败时（https://blog.csdn.net/notejs/article/details/49681517）：
+		  两个方法：
+			a、node-gyp --python /path/to/python2.7
+			b、npm install --msvs_version=2013
+			  进入cmd命令行管理员模式下运行
+			  npm/cnpm install --global --production windows-build-tools
+			  再不行就只能安装python，并且配置环境变量了。
+	3、在routes文件夹下，index.js中，设置web3的provider，用来连接上服务器的geth，前提是服务器的geth需要先启动起来。
+		var Web3 = require('web3');
+		var web3 = new Web3();
+
+		if (web3.currentProvider) {
+    		web3 = new Web3(web3.currentProvider);
+		} else {
+    		// set the provider you want from Web3.providers
+    		// 如果这个项目要放到服务器上，则用这个配置，连接本机的8545端口，当然这个端口是在启动geth的时候设置的
+    		// web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
+    		// 这个配置是我的服务器，可以作测试是否有效用
+    		// web3 = new Web3(new Web3.providers.HttpProvider("http://39.108.64.144:8545"));
+		}
+
+		// 测试是否连接上
+		var connected = web3.isConnected();
+		if(connected) {
+    		console.log('node connected');
+    		var coinbase = web3.eth.coinbase;
+    		console.log(coinbase);
+
+    		var balance = web3.fromWei(web3.eth.getBalance(coinbase),"ether");
+    		console.log(balance.toString(10));
+		} else {
+    		console.log('node not connected');
+		}
+
+		* 需要注意一点的就是，当在windows中连接linux上的geth时或者远程连接geth时，在启动geth的时候，需要在启动命令中加上--rpcaddr "0.0.0.0"，来让外网能够访问到该geth，启动命令也不能加--nodiscover
+
+	4、现在来说，应该是连接上geth了，现在就可以根据web3.js的api来操作以太坊私有链了。
+
+	5、ssh2执行linux上的shell（https://blog.csdn.net/laputa73/article/details/61427605）
+	  ssh.js
+		var Client = require('ssh2').Client;
+
+		function newtouch_exec(mode) {
+    		var conn = new Client();
+    		conn.on('ready',function () {
+        		conn.exec(mode,function (err, stream) {
+            		if(err)
+                		throw err;
+            		stream.on('close',function (code, signal) {
+                		conn.end();
+            		}).on('data',function (data) {
+                		console.log('STDOUT: '+data);
+            		}).stderr.on('data',function (data) {
+                		console.log('STDERR: '+data);
+            		});
+        		});
+    		}).connect({
+        		host: '*.*.*.*',
+        		port: 22,
+        		username: '**',
+        		password: '**'
+    		});
+		}
+
+		module.exports = newtouch_exec;
+
+	  index.js
+	  	var SSH = require('./ssh');
+	  	uname = new SSH('uname -a');
