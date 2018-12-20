@@ -1,20 +1,57 @@
 <template>
-  <Layout style="height: 100%" class="main">
-    <Sider hide-trigger collapsible :width="256" :collapsed-width="64" v-model="collapsed" style="overflow: auto;">
-      <side-menu accordion :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
+  <Layout
+    style="height: 100%"
+    class="main"
+  >
+    <Sider
+      hide-trigger
+      collapsible
+      :width="256"
+      :collapsed-width="64"
+      v-model="collapsed"
+      style="overflow: auto;"
+    >
+      <side-menu
+        accordion
+        :active-name="$route.name"
+        :collapsed="collapsed"
+        @on-select="turnToPage"
+        :menu-list="menuList"
+      >
         <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
         <div class="logo-con">
-          <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
-          <img v-show="collapsed" :src="minLogo" key="min-logo" />
+          <img
+            v-show="!collapsed"
+            :src="maxLogo"
+            key="max-logo"
+          />
+          <img
+            v-show="collapsed"
+            :src="minLogo"
+            key="min-logo"
+          />
         </div>
       </side-menu>
     </Sider>
     <Layout>
       <Header class="header-con">
-        <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
-          <user :user-avator="userAvator" :user-name="userName" />
-          <language @on-lang-change="setLocal" style="margin-right: 10px;" :lang="local"/>
-          <fullscreen v-model="isFullscreen" style="margin-right: 10px;"/>
+        <header-bar
+          :collapsed="collapsed"
+          @on-coll-change="handleCollapsedChange"
+        >
+          <user
+            :user-avator="userAvator"
+            :user-name="userName"
+          />
+          <language
+            @on-lang-change="setLocal"
+            style="margin-right: 10px;"
+            :lang="local"
+          />
+          <fullscreen
+            v-model="isFullscreen"
+            style="margin-right: 10px;"
+          />
         </header-bar>
       </Header>
       <Content>
@@ -24,7 +61,7 @@
           </div> -->
           <Content class="content-wrapper">
             <keep-alive :include="cacheList">
-              <router-view/>
+              <router-view />
             </keep-alive>
           </Content>
         </Layout>
@@ -134,7 +171,7 @@ export default {
     this.setLocal(this.$i18n.locale)
     // 文档提示
     this.$Notice.open({
-      title: '欢迎使用溯源平台管理系统',
+      title: '欢迎使用区块链云开发平台',
       duration: 5
     })
   }

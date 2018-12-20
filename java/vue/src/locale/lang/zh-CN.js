@@ -2,28 +2,14 @@ export default {
   // 菜单
   home: '首页',
   i18n_home: '首页',
-  i18n_employee_manage: '人员管理',
-  i18n_region_manage: '区域管理',
-  i18n_plantask_manage: '计划管理',
-  i18n_audit_manage: '审核管理',
-  i18n_audit_waitaudit: '待审核任务',
-  i18n_audit_auditrecord: '审核记录',
-  i18n_operation_manage: '节点管理',
-  i18n_images_manage: '图片管理',
   i18n_permission_manage: '权限管理',
   i18n_character_manage: '角色管理',
   i18n_user_manage: '用户管理',
   i18n_resource_manage: '资源管理',
-  i18n_system_manage: '系统管理',
-  i18n_weChat: '微信公众平台配置',
-  i18n_weChat_parameter: '参数配置',
-  i18n_weChat_parameter_insert: '参数录入',
-  i18n_weChat_parameter_show: '参数展示',
-  i18n_menu: '菜单配置',
-  i18n_disk: '磁盘预览',
   i18n_schedule_manage: '定时任务管理',
-  i18n_dictionary_manage: '大小类管理',
-  i18n_qrcode_manage: '二维码管理',
+  i18n_service_test: '服务器测试',
+  i18n_fabric_manage: 'fabric',
+  i18n_ethereum_manage: '以太坊',
 
   // 登录页
   i18n_welcome_login: '欢迎登陆',
@@ -48,80 +34,7 @@ export default {
   i18n_home_scan_number: '扫码量',
   i18n_home_annual_product_data_display: '年度各产品数据展示',
 
-  // 人员管理
-  i18n_employee_name: '姓名',
-  i18n_employee_phone: '手机号码',
-  i18n_employee_IdCard: '身份证号码',
-  i18n_employee_integral: '积分',
-  i18n_employee_input_time: '录入时间',
-  i18n_employee_operation: '节点',
-  i18n_employee_add_info: '新增人员信息',
-  i18n_employee_modify_info: '修改人员信息',
-  i18n_employee_delete_info: '删除该员工数据后，该员工信息将会不存在。',
-  i18n_employee_delete_confirm: '是否继续删除?',
-
-  // 区域管理
-  i18n_region_view: '区域一览',
-  i18n_region_name: '区域名称',
-  i18n_region_parent_region_name: '父级区域名称',
-  i18n_region_add_modify: '新增/修改 区域',
-  i18n_region_sort: '排序号',
-  i18n_region_parent_name: '父级名称',
-  i18n_region_longitude: '地区经度',
-  i18n_region_latitude: '地区纬度',
-  i18n_region_delete_info: '该操作将删除该区域以及它的子区域，是否删除?',
-
-  // 计划管理
-  i18n_plantask_view: '计划一览',
-  i18n_plantask_name: '计划名称',
-  i18n_plantask_build: '新建计划',
-  i18n_plantask_select_operation: '节点选择',
-  i18n_plantask_add_operation: '添加节点',
-  i18n_plantask_select_region: '区域选择',
-  i18n_task_select_region_info: '请选择该计划所在的区域',
-  i18n_plantask_add_operation_info: '请选择计划任务中所需要用到的节点',
-  i18n_plantask_image: '图片',
-  i18n_plantask_detail: '计划详情',
-  i18n_task_list: '小任务列表',
-  i18n_task_detail: '小任务详情',
-  i18n_task_name: '小任务名',
-  i18n_task_add_modify: '新建/修改 任务',
-  i18n_task_select_employee: '人员选择',
-  i18n_task_add_employee: '添加人员',
-  i18n_task_select_employee_info: '请选择执行该任务的工作人员',
-  i18n_task_image_required: '图片需求',
-  i18n_task_image_number: '图片张数',
-  i18n_task_push_require: '推送需求',
-  i18n_task_bonus_point: '完成积分',
-  i18n_task_deduct_point: '未完成扣分',
-
-  // 审核管理
-  i18n_audit: '审核',
-  i18n_audit_image: '图片审核',
-  i18n_audit_list: '审核列表',
-  i18n_audit_pass: '审核通过',
-  i18n_audit_refuse: '审核不通过',
-  i18n_audit_date: '审核时间',
-  i18n_audit_status: '审核状态',
-  i18n_audit_role: '审核人',
-  i18n_audit_init: '任务初始',
-  i18n_audit_pending: '任务待审',
-  i18n_audit_people: '人工',
-  i18n_audit_system: '系统',
-  i18n_audit_chain_no: '任务不需入链',
-
-  // 节点管理
-  i18n_operation_code: '节点代码',
-  i18n_operation_name: '节点名称',
-  i18n_operation_whether_chain: '是否入链',
-  i18n_operation_spread: '展开',
-  i18n_operation_chain_yes: '入链',
-  i18n_operation_chain_no: '不入链',
-  i18n_operation_modify: '修改节点',
-  i18n_operation_delete_info: '删除该节点后，该节点信息将会不存在，是否继续删除？',
-
-  // 图片管理
-  i18n_image_view: '预览图片',
+  // fabric
 
   // 权限管理
   i18n_permission_role_add: '添加角色',
@@ -220,28 +133,6 @@ export default {
   i18n_schedule_modified: '已修改',
   i18n_schedule_time_format_error: '输入的时间格式错误',
 
-  // 大小类管理
-  i18n_category_view: '大类一览',
-  i18n_category_add: '新增 大类',
-  i18n_category_delete_info: '是否要把该大类移除?',
-  i18n_category_group: '分组',
-  i18n_category_name: '名称',
-  i18n_category_detail: '大类详情',
-  i18n_dictionary_list: '小类列表',
-  i18n_dictionary_add: '新增/修改 小类',
-  i18n_dictionary_delete_info: '是否要把该小类移除?',
-  i18n_dictionary_code: '代码',
-  i18n_dictionary_value: '值',
-  i18n_dictionary_name: '小类名',
-
-  // 二维码管理
-  i18n_qrcode_code: '二维码CODE',
-  i18n_qrcode_people: '绑定人姓名',
-  i18n_qrcode_unbundle: '解绑',
-  i18n_qrcode_unbundle_confirm: '解绑确认',
-  i18n_qrcode_unbundle_info1: '解绑后，该二维码代号绑定的信息将会被解除.',
-  i18n_qrcode_unbundle_info2: '是否继续解绑?',
-
   // 公共
   i18n_common_select: '请选择',
   i18n_common_detail: '详情',
@@ -270,5 +161,8 @@ export default {
   i18n_common_enable: '启用',
   i18n_common_disable: '禁用',
   i18n_common_need: '需要',
-  i18n_common_not_need: '不需要'
+  i18n_common_not_need: '不需要',
+  i18n_blockchain_deploy_chaincode: '合约部署',
+  i18n_blockchain_test_chaincode: '合约测试',
+  i18n_build_env: '环境搭建'
 }

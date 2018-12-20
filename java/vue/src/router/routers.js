@@ -43,10 +43,106 @@ export default [
     ]
   },
   {
+    path: '/service_page',
+    name: 'i18n_service_test',
+    meta: {
+      icon: 'cloud',
+      title: '服务器测试'
+    },
+    component: Main,
+    children: [
+      {
+        path: '/service_page',
+        name: 'i18n_service_test',
+        meta: {
+          icon: 'cloud',
+          title: '服务器测试'
+        },
+        component: () => import('@/view/schedule/schedule.vue')
+      }
+    ]
+  },
+  {
+    path: '/fabric',
+    name: 'i18n_fabric_manage',
+    meta: {
+      icon: 'social-snapchat',
+      title: 'fabric'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'fabric_env',
+        name: 'i18n_build_env',
+        meta: {
+          icon: 'social-chrome-outline',
+          title: '环境搭建'
+        },
+        component: () => import('@/view/permission/roleManage.vue')
+      },
+      {
+        path: 'fabric_deploy_chaincode',
+        name: 'i18n_blockchain_deploy_chaincode',
+        meta: {
+          icon: 'settings',
+          title: '部署合约'
+        },
+        component: () => import('@/view/permission/userManage.vue')
+      },
+      {
+        path: 'fabric_test_chaincode',
+        name: 'i18n_blockchain_test_chaincode',
+        meta: {
+          icon: 'bonfire',
+          title: '合约测试'
+        },
+        component: () => import('@/view/permission/menuManage.vue')
+      }
+    ]
+  },
+  {
+    path: '/ethereum',
+    name: 'i18n_ethereum_manage',
+    meta: {
+      icon: 'social-snapchat-outline',
+      title: 'ethereum'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'ethereum_env',
+        name: 'i18n_build_env',
+        meta: {
+          icon: 'android-contacts',
+          title: '环境搭建'
+        },
+        component: () => import('@/view/permission/roleManage.vue')
+      },
+      {
+        path: 'ethereum_deploy_chaincode',
+        name: 'i18n_blockchain_deploy_chaincode',
+        meta: {
+          icon: 'settings',
+          title: '部署合约'
+        },
+        component: () => import('@/view/permission/userManage.vue')
+      },
+      {
+        path: 'ethereum_test_chaincode',
+        name: 'i18n_blockchain_test_chaincode',
+        meta: {
+          icon: 'bonfire',
+          title: '合约测试'
+        },
+        component: () => import('@/view/permission/menuManage.vue')
+      }
+    ]
+  },
+  {
     path: '/permission',
     name: 'i18n_permission_manage',
     meta: {
-      icon: 'key',
+      icon: 'locked',
       title: '权限管理'
     },
     component: Main,
