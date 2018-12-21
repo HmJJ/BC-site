@@ -1,5 +1,5 @@
 import Main from '@/view/main'
-import parentView from '@/components/parent-view'
+// import parentView from '@/components/parent-view'
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -43,22 +43,21 @@ export default [
     ]
   },
   {
-    path: '/service_page',
-    name: 'i18n_service_test',
+    path: '/server_page',
+    name: 'i18n_server_test',
     meta: {
-      icon: 'cloud',
-      title: '服务器测试'
+      hide: true
     },
     component: Main,
     children: [
       {
-        path: '/service_page',
-        name: 'i18n_service_test',
+        path: '/server_page',
+        name: 'i18n_server_test',
         meta: {
           icon: 'cloud',
           title: '服务器测试'
         },
-        component: () => import('@/view/schedule/schedule.vue')
+        component: () => import('@/view/server/server.vue')
       }
     ]
   },
@@ -78,7 +77,7 @@ export default [
           icon: 'social-chrome-outline',
           title: '环境搭建'
         },
-        component: () => import('@/view/permission/roleManage.vue')
+        component: () => import('@/view/fabric/buildFabricEnv.vue')
       },
       {
         path: 'fabric_deploy_chaincode',
@@ -87,7 +86,7 @@ export default [
           icon: 'settings',
           title: '部署合约'
         },
-        component: () => import('@/view/permission/userManage.vue')
+        component: () => import('@/view/fabric/deployFabricChainCode.vue')
       },
       {
         path: 'fabric_test_chaincode',
@@ -96,7 +95,7 @@ export default [
           icon: 'bonfire',
           title: '合约测试'
         },
-        component: () => import('@/view/permission/menuManage.vue')
+        component: () => import('@/view/fabric/testFabricChainCode.vue')
       }
     ]
   },
@@ -105,7 +104,7 @@ export default [
     name: 'i18n_ethereum_manage',
     meta: {
       icon: 'social-snapchat-outline',
-      title: 'ethereum'
+      title: '以太坊'
     },
     component: Main,
     children: [
@@ -113,10 +112,10 @@ export default [
         path: 'ethereum_env',
         name: 'i18n_build_env',
         meta: {
-          icon: 'android-contacts',
+          icon: 'social-chrome-outline',
           title: '环境搭建'
         },
-        component: () => import('@/view/permission/roleManage.vue')
+        component: () => import('@/view/ethereum/buildEthEnv.vue')
       },
       {
         path: 'ethereum_deploy_chaincode',
@@ -125,7 +124,7 @@ export default [
           icon: 'settings',
           title: '部署合约'
         },
-        component: () => import('@/view/permission/userManage.vue')
+        component: () => import('@/view/ethereum/deployEthChainCode.vue')
       },
       {
         path: 'ethereum_test_chaincode',
@@ -134,7 +133,7 @@ export default [
           icon: 'bonfire',
           title: '合约测试'
         },
-        component: () => import('@/view/permission/menuManage.vue')
+        component: () => import('@/view/ethereum/testEthChainCode.vue')
       }
     ]
   },

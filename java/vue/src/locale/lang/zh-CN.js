@@ -7,7 +7,7 @@ export default {
   i18n_user_manage: '用户管理',
   i18n_resource_manage: '资源管理',
   i18n_schedule_manage: '定时任务管理',
-  i18n_service_test: '服务器测试',
+  i18n_server_test: '服务器测试',
   i18n_fabric_manage: 'fabric',
   i18n_ethereum_manage: '以太坊',
 
@@ -34,6 +34,8 @@ export default {
   i18n_home_scan_number: '扫码量',
   i18n_home_annual_product_data_display: '年度各产品数据展示',
 
+  // server
+  i18n_server_info: '服务器信息',
   // fabric
 
   // 权限管理
