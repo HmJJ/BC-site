@@ -6,89 +6,86 @@
         {{$t('i18n_server_info')}}
       </div>
       <div>
-        <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="80">
-          <FormItem label="Password" prop="passwd">
-            <Input type="password" v-model="formCustom.passwd" />
+        <Form ref="serverForm" :model="serverForm" :rules="serverRule" :label-width="100">
+          <FormItem :label="$t('i18n_server_ip')" prop="serverIP" style="width:50%">
+            <Input type="text" v-model="serverForm.serverIP"/>
           </FormItem>
-          <FormItem label="Confirm" prop="passwdCheck">
-            <Input type="password" v-model="formCustom.passwdCheck" />
+          <FormItem :label="$t('i18n_server_username')" prop="username" style="width:50%">
+            <Input type="text"  v-model="serverForm.username"/>
           </FormItem>
-          <FormItem label="Age" prop="age">
-            <Input type="text" v-model="formCustom.age" number />
+          <FormItem :label="$t('i18n_server_password')" prop="password" style="width:50%">
+            <Input type="password" v-model="serverForm.password" number />
           </FormItem>
-          <FormItem>
-            <Button type="primary" @click="handleSubmit('formCustom')">Submit</Button>
-            <Button @click="handleReset('formCustom')" style="margin-left: 8px">Reset</Button>
+          <FormItem style="width:50%">
+            <Button type="primary" @click="handleSubmit('serverForm')" >Submit</Button>
+            <Button @click="handleReset('serverForm')" style="margin-left: 8px" >Reset</Button>
           </FormItem>
         </Form>
+        <Spin size="large" fix v-if="spinShow"></Spin>
       </div>
     </Card>
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   data () {
-    const validatePass = (rule, value, callback) => {
+    const validateServerIP = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('Please enter your password'))
-      } else {
-        if (this.formCustom.passwdCheck !== '') {
-          // 对第二个密码框单独验证
-          this.$refs.formCustom.validateField('passwdCheck')
-        }
-        callback()
-      }
-    }
-    const validatePassCheck = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please enter your password again'))
-      } else if (value !== this.formCustom.passwd) {
-        callback(new Error('The two input passwords do not match!'))
+        callback(new Error('Please enter your Server IP'))
       } else {
         callback()
       }
     }
-    const validateAge = (rule, value, callback) => {
+    const validateUsername = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please enter your server username'))
+      } else {
+        callback()
+      }
+    }
+    const validatePassword = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('Age cannot be empty'))
+        callback(new Error('password cannot be empty'))
+      } else {
+        callback()
       }
-      // 模拟异步验证效果
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('Please enter a numeric value'))
-        } else {
-          if (value < 18) {
-            callback(new Error('Must be over 18 years of age'))
-          } else {
-            callback()
-          }
-        }
-      }, 1000)
     }
     return {
-      formCustom: {
-        passwd: '',
-        passwdCheck: '',
-        age: ''
+      serverForm: {
+        serverIP: '',
+        serverPort: 22,
+        username: '',
+        password: ''
       },
-      ruleCustom: {
-        passwd: [
-          { validator: validatePass, trigger: 'blur' }
+      serverRule: {
+        serverIP: [
+          { validator: validateServerIP, trigger: 'blur' }
         ],
-        passwdCheck: [
-          { validator: validatePassCheck, trigger: 'blur' }
+        username: [
+          { validator: validateUsername, trigger: 'blur' }
         ],
-        age: [
-          { validator: validateAge, trigger: 'blur' }
+        password: [
+          { validator: validatePassword, trigger: 'blur' }
         ]
-      }
+      },
+      spinShow: false
     }
   },
   methods: {
+    ...mapActions(['connect']),
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.$Message.success('Success!')
+          this.spinShow = true
+          var params = {ip: serverForm.serverIP, port: serverForm.serverPort, userName: serverForm.username, userPwd: serverForm.password}
+          this.connect(params).then(res => {
+            let result = res
+            if (result.code === 200) {
+              this.$Message.success(result.data)
+            }
+          })
+          this.spinShow = false
         } else {
           this.$Message.error('Fail!')
         }
@@ -100,3 +97,6 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+</style>

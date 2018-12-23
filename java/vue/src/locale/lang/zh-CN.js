@@ -36,6 +36,9 @@ export default {
 
   // server
   i18n_server_info: '服务器信息',
+  i18n_server_ip: '服务器地址',
+  i18n_server_username: '服务器用户名',
+  i18n_server_password: '服务器密码',
   // fabric
 
   // 权限管理
