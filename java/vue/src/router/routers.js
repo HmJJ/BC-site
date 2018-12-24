@@ -153,7 +153,8 @@ export default [
           icon: 'android-contacts',
           title: '角色管理'
         },
-        component: () => import('@/view/permission/roleManage.vue')
+        component: () => import('@/view/single-page/home')
+        // component: () => import('@/view/permission/roleManage.vue')
       },
       {
         path: 'userManage',
@@ -162,7 +163,8 @@ export default [
           icon: 'person',
           title: '用户管理'
         },
-        component: () => import('@/view/permission/userManage.vue')
+        component: () => import('@/view/single-page/home')
+        // component: () => import('@/view/permission/userManage.vue')
       },
       {
         path: 'resource',
@@ -171,7 +173,8 @@ export default [
           icon: 'navicon-round',
           title: '资源管理'
         },
-        component: () => import('@/view/permission/menuManage.vue')
+        component: () => import('@/view/single-page/home')
+        // component: () => import('@/view/permission/menuManage.vue')
       }
     ]
   },
@@ -191,7 +194,8 @@ export default [
           icon: 'ios-navigate',
           title: '定时任务管理'
         },
-        component: () => import('@/view/schedule/schedule.vue')
+        component: () => import('@/view/single-page/home')
+        // component: () => import('@/view/schedule/schedule.vue')
       }
     ]
   }
