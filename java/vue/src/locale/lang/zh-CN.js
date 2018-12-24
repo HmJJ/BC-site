@@ -36,9 +36,13 @@ export default {
 
   // server
   i18n_server_info: '服务器信息',
+  i18n_server_info_check: '信息查看项',
+  i18n_server_status: '连接状态',
   i18n_server_ip: '服务器地址',
+  i18n_server_port: '服务器端口',
   i18n_server_username: '服务器用户名',
   i18n_server_password: '服务器密码',
+  i18n_server_info_result: '服务器信息查看结果',
   // fabric
 
   // 权限管理
@@ -139,6 +143,7 @@ export default {
   i18n_schedule_time_format_error: '输入的时间格式错误',
 
   // 公共
+  i18n_common_action: '操作项',
   i18n_common_select: '请选择',
   i18n_common_detail: '详情',
   i18n_common_type: '类型',

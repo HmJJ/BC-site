@@ -16,11 +16,13 @@ public class Init implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		// 在这里写入初始化时运行的代码
-        User user = new User();
-        user.setUsername("admin");
-        user.setPassword("admin");
-        user.setName("nott");
-		userService.commit(user, true);
+		if(userService.getUser("admin", "nott")) {
+			User user = new User();
+			user.setUsername("admin");
+			user.setPassword("admin");
+			user.setName("nott");
+			userService.commit(user, true);
+		}
 	}
 
 }

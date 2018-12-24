@@ -13,6 +13,6 @@ public class BCsiteConstants {
     /**
      *  centos查看版本命令
      */
-    public static final String CENTOS_CHECK_VERSION = "cat /etc/issue";
+    public static final String CENTOS_CHECK_VERSION = "cat /proc/version";
 
 }

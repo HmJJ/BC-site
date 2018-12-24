@@ -1,28 +1,88 @@
 <template>
   <div id="main">
-    <Card style="width: auto;text-align: left;display: block;margin-left: auto;margin-right: auto;margin-bottom: 50px">
+    <Card style="width: auto;text-align: left;display: block;margin-left: auto;margin-right: auto;margin-bottom: 20px">
       <div slot="title">
         <Icon type="monitor"></Icon>
         {{$t('i18n_server_info')}}
       </div>
       <div>
         <Form ref="serverForm" :model="serverForm" :rules="serverRule" :label-width="100">
-          <FormItem :label="$t('i18n_server_ip')" prop="serverIP" style="width:50%">
-            <Input type="text" v-model="serverForm.serverIP"/>
-          </FormItem>
-          <FormItem :label="$t('i18n_server_username')" prop="username" style="width:50%">
-            <Input type="text"  v-model="serverForm.username"/>
-          </FormItem>
-          <FormItem :label="$t('i18n_server_password')" prop="password" style="width:50%">
-            <Input type="password" v-model="serverForm.password" number />
-          </FormItem>
-          <FormItem style="width:50%">
-            <Button type="primary" @click="handleSubmit('serverForm')" >Submit</Button>
-            <Button @click="handleReset('serverForm')" style="margin-left: 8px" >Reset</Button>
-          </FormItem>
+          <Row>
+            <i-col span="12">
+              <FormItem :label="$t('i18n_server_ip')" prop="serverIP" style="width:67%">
+                <Input type="text" v-model="serverForm.serverIP"/>
+              </FormItem>
+            </i-col>
+            <i-col span="12">
+              <FormItem :label="$t('i18n_server_port')" prop="serverPort" style="width:40%">
+                <Input type="text" v-model="serverForm.serverPort"/>
+              </FormItem>
+            </i-col>
+            <i-col span="8">
+              <FormItem :label="$t('i18n_server_username')" prop="username" style="width:100%">
+                <Input type="text"  v-model="serverForm.username"/>
+              </FormItem>
+            </i-col>
+            <i-col span="8">
+              <FormItem :label="$t('i18n_server_password')" prop="password" style="width:100%">
+                <Input type="password" v-model="serverForm.password" number />
+              </FormItem>
+            </i-col>
+            <i-col span="6">
+              <FormItem style="width:100%">
+                <Button type="primary" @click="handleSubmit('serverForm')" >连接</Button>
+                <Button @click="handleReset('serverForm')" style="margin-left: 8px" >重置</Button>
+              </FormItem>
+            </i-col>
+          </Row>
         </Form>
         <Spin size="large" fix v-if="spinShow"></Spin>
       </div>
+    </Card>
+    <Card style="width: auto;text-align: left;display: block;margin-left: auto;margin-right: auto;margin-bottom: 20px">
+      <div slot="title">
+        <Icon type="flash"></Icon>
+        {{$t('i18n_common_action')}}
+      </div>
+      <div>
+        <Row>
+          <i-col span="24" style="margin-bottom: 20px;">
+            <p>{{$t('i18n_server_status')}}: {{ connStatus }}</p>
+          </i-col>
+          <i-col span="24" style="margin-bottom: 20px;">
+            <p>{{$t('i18n_server_info_check')}}:</p>
+          </i-col>
+          <i-col span="8" style="text-align:center;margin-bottom: 20px;">
+            <Button type="ghost" shape="circle" @click="checkInfo('uname -a')" style="width: 50%">内核信息</Button>
+          </i-col>
+          <i-col span="8" style="text-align:center;margin-bottom: 20px;">
+            <Button type="ghost" shape="circle" @click="checkInfo('cat /proc/version')" style="width: 50%">版本信息</Button>
+          </i-col>
+          <i-col span="8" style="text-align:center;margin-bottom: 20px;">
+            <Button type="ghost" shape="circle" @click="checkInfo('cat /etc/redhat-release')" style="width: 50%">发行版信息</Button>
+          </i-col>
+          <i-col span="8" style="text-align:center;">
+            <Button type="ghost" shape="circle" @click="checkInfo('cat /proc/cpuinfo')" style="width: 50%">CPU相关信息</Button>
+          </i-col>
+          <i-col span="8" style="text-align:center;">
+            <Button type="ghost" shape="circle" @click="checkInfo('getconf LONG_BIT')" style="width: 50%">系统运行位数</Button>
+          </i-col>
+          <i-col span="8" style="text-align:center;">
+            <Button type="ghost" shape="circle" @click="checkInfo('free -m')" style="width: 50%">内存使用量</Button>
+          </i-col>
+        </Row>
+      </div>
+      <Modal v-model="infoModal" width="360">
+        <p slot="header" style="text-align:left">
+          <span>{{$t('i18n_server_info')}}</span>
+        </p>
+        <div style="text-align: center">
+          <p style="font-size: 15px;">{{ serverInfo }}</p>
+        </div>
+        <div slot="footer">
+          <Button type="success" long size="default" @click="cancelModal">{{$t('i18n_common_confirm')}}</Button>
+        </div>
+      </Modal>
     </Card>
   </div>
 </template>
@@ -32,21 +92,21 @@ export default {
   data () {
     const validateServerIP = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('Please enter your Server IP'))
+        callback(new Error('请输入服务器IP'))
       } else {
         callback()
       }
     }
     const validateUsername = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('Please enter your server username'))
+        callback(new Error('请输入服务器用户名'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (!value) {
-        callback(new Error('password cannot be empty'))
+        callback(new Error('请输入服务器密码'))
       } else {
         callback()
       }
@@ -69,30 +129,48 @@ export default {
           { validator: validatePassword, trigger: 'blur' }
         ]
       },
+      connStatus: false,
+      infoModal: false,
+      serverInfo: 'server search info...',
       spinShow: false
     }
   },
   methods: {
-    ...mapActions(['connect']),
+    ...mapActions(['connect', 'execute']),
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
           this.spinShow = true
-          var params = {ip: serverForm.serverIP, port: serverForm.serverPort, userName: serverForm.username, userPwd: serverForm.password}
+          var params = {ip: this.serverForm.serverIP, port: this.serverForm.serverPort, userName: this.serverForm.username, userPwd: this.serverForm.password}
           this.connect(params).then(res => {
             let result = res
             if (result.code === 200) {
-              this.$Message.success(result.data)
+              this.connStatus = true
+              this.$Message.success('连接成功')
             }
           })
           this.spinShow = false
         } else {
-          this.$Message.error('Fail!')
+          this.$Message.error('服务器参数错误，请检查!')
         }
       })
     },
     handleReset (name) {
       this.$refs[name].resetFields()
+    },
+    checkInfo (cmd) {
+      this.execute({cmd: cmd}).then(res => {
+        let result = res
+        if (result.code === 200) {
+          this.serverInfo = result.data
+          this.infoModal = true
+        } else {
+          this.$Message.error('服务器参数错误，请检查!')
+        }
+      })
+    },
+    cancelModal () {
+      this.infoModal = false
     }
   }
 }
