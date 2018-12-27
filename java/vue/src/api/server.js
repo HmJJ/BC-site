@@ -23,3 +23,11 @@ export const execute = ({cmd}) => {
     method: 'post'
   })
 }
+
+export const getserver = () => {
+  return axios.request({
+    url: 'server/serverInfo',
+    params: {},
+    method: 'post'
+  })
+}

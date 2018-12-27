@@ -1,4 +1,4 @@
-import { connect, execute } from '@/api/server'
+import { connect, execute, getserver } from '@/api/server'
 
 export default {
   actions: {
@@ -14,6 +14,15 @@ export default {
     execute ({ commit }, {cmd}) {
       return new Promise((resolve, reject) => {
         execute({cmd}).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    getserver ({commit}) {
+      return new Promise((resolve, reject) => {
+        getserver().then(res => {
           resolve(res)
         }).catch(err => {
           reject(err)

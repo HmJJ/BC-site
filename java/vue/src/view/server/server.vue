@@ -36,7 +36,7 @@
             </i-col>
           </Row>
         </Form>
-        <Spin size="large" fix v-if="spinShow"></Spin>
+        <Spin size="large" fix v-if="spinShowConn"></Spin>
       </div>
     </Card>
     <Card style="width: auto;text-align: left;display: block;margin-left: auto;margin-right: auto;margin-bottom: 20px">
@@ -70,8 +70,12 @@
           <i-col span="8" style="text-align:center;">
             <Button type="ghost" shape="circle" @click="checkInfo('free -m')" style="width: 50%">内存使用量</Button>
           </i-col>
+          <i-col span="24" style="text-align:center;margin-top:20px">
+            <Input v-model="cmdDIY" icon="flash" placeholder="自定义执行" @on-click="executeDIY" style="width: 50%;" />
+          </i-col>
         </Row>
       </div>
+      <Spin size="large" fix v-if="spinShowExecute"></Spin>
       <Modal v-model="infoModal" width="360">
         <p slot="header" style="text-align:left">
           <span>{{$t('i18n_server_info')}}</span>
@@ -132,45 +136,74 @@ export default {
       connStatus: false,
       infoModal: false,
       serverInfo: 'server search info...',
-      spinShow: false
+      spinShowConn: false,
+      spinShowExecute: false,
+      cmdDIY: ''
     }
   },
+  mounted () {
+    this.init()
+  },
   methods: {
-    ...mapActions(['connect', 'execute']),
-    handleSubmit (name) {
-      this.$refs[name].validate((valid) => {
-        if (valid) {
-          this.spinShow = true
-          var params = {ip: this.serverForm.serverIP, port: this.serverForm.serverPort, userName: this.serverForm.username, userPwd: this.serverForm.password}
-          this.connect(params).then(res => {
-            let result = res
-            if (result.code === 200) {
-              this.connStatus = true
-              this.$Message.success('连接成功')
-            }
-          })
-          this.spinShow = false
+    ...mapActions(['connect', 'execute', 'getserver']),
+    init () {
+      this.getserver().then(res => {
+        if (res.code === 200) {
+          let serverVO = res.data['serverVO']
+          console.log(serverVO)
+          this.serverForm.serverIP = serverVO.ip
+          this.serverForm.serverPort = serverVO.port
+          this.serverForm.username = serverVO.userName
+          this.serverForm.password = serverVO.userPwd
+          this.connStatus = res.data['connStatus']
         } else {
           this.$Message.error('服务器参数错误，请检查!')
         }
       })
+    },
+    handleSubmit (name) {
+      this.spinShowConn = true
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          var params = {ip: this.serverForm.serverIP, port: this.serverForm.serverPort, userName: this.serverForm.username, userPwd: this.serverForm.password}
+          this.connect(params).then(res => {
+            let result = res
+            if (result.code === 200) {
+              this.connStatus = res.data['connStatus']
+              this.$Message.success('连接成功')
+            }
+          })
+        } else {
+          this.$Message.error('服务器参数错误，请检查!')
+        }
+      })
+      this.spinShowConn = false
     },
     handleReset (name) {
       this.$refs[name].resetFields()
     },
     checkInfo (cmd) {
+      this.spinShowExecute = true
       this.execute({cmd: cmd}).then(res => {
-        let result = res
-        if (result.code === 200) {
-          this.serverInfo = result.data
+        if (res.code === 200) {
+          this.serverInfo = res.data['result']
+          this.connStatus = res.data['connStatus']
           this.infoModal = true
         } else {
           this.$Message.error('服务器参数错误，请检查!')
         }
       })
+      this.spinShowExecute = false
     },
     cancelModal () {
       this.infoModal = false
+    },
+    executeDIY () {
+      if (this.cmdDIY === '') {
+        this.$Message.error('参数为空！')
+      } else {
+        this.checkInfo(this.cmdDIY)
+      }
     }
   }
 }

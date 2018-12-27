@@ -5,3 +5,5 @@ java/springboot/.idea/compiler.xml
 *.xml
 java/springboot/.idea/compiler.xml
 java/springboot/.idea/workspace.xml
+java/springboot/.idea/workspace.xml
+*.xml
