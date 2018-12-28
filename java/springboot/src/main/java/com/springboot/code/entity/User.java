@@ -103,6 +103,17 @@ public class User extends DefaultModel {
 	@Getter
 	@Setter
 	private Set<Role> roles;
+	
+	/**
+	 * 用户拥有的服务器信息
+	 */
+	@ManyToMany(targetEntity = ServerInfo.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+	@JoinTable(name = "REL_USER_SERVERINFO", 
+		joinColumns        = { @JoinColumn(name = "USER_ID", referencedColumnName = "ID") },
+		inverseJoinColumns = { @JoinColumn(name = "SERVERINFO_ID", referencedColumnName = "ID") })
+	@Getter
+	@Setter
+	private Set<ServerInfo> serverInfos;
 
 	/**
 	 * @return
@@ -144,6 +155,21 @@ public class User extends DefaultModel {
 		if (this.roles != null && !this.roles.isEmpty()) {
 			for (Role role : roles) {
 				ids.add(role.getId());
+			}
+		}
+		return ids;
+	}
+	
+	/**
+	 * @return
+	 * 
+	 */
+	@Transient
+	public Set<String> gatherServerInfoIds() {
+		Set<String> ids = new HashSet<String>();
+		if (this.serverInfos != null && !this.serverInfos.isEmpty()) {
+			for (ServerInfo serverInfo : serverInfos) {
+				ids.add(serverInfo.getId());
 			}
 		}
 		return ids;

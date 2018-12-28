@@ -15,7 +15,7 @@ public class SSHUtils {
     private static SSHUtils instance;
 
     public static SSHUtils getInstance(String ip, Integer port, String userName, String userPwd) {
-        if (instance == null) {
+        if (instance == null || (instance != null && !instance.login())) {
             instance = new SSHUtils(ip, port, userName, userPwd);
         }
         return instance;
@@ -130,27 +130,4 @@ public class SSHUtils {
         }
         return sb.toString();
     }
-
-    public static void main(String[]args)
-    {
-        SSHUtils rec = new SSHUtils("39.108.64.144", 22," root","ky32130930..");
-        try {
-            if (rec.login()) {
-                System.out.println("-------- 启动连接--------");
-                Session session = conn.openSession();
-                session.execCommand("cd /home/ubuntu/Desktop/music_rec/user_sim");
-                String result = processStdout(session.getStdout(),DEFAULTCHART);
-                if(result.equals("")|| result==null){
-                    System.out.println("--------出错啦--------");
-                    result=processStdout(session.getStderr(),DEFAULTCHART);
-                }
-                System.out.println(result);
-                session.close();
-
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
 }

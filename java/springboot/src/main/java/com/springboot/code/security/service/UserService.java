@@ -4,13 +4,16 @@
 package com.springboot.code.security.service;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.springboot.basic.service.DefaultService;
 import com.springboot.basic.support.CommonRequestAttributes;
 import com.springboot.basic.support.CommonResponse;
 import com.springboot.basic.utils.StringUtils;
 import com.springboot.basic.utils.time.DateUtils;
+import com.springboot.code.entity.ServerInfo;
 import com.springboot.code.entity.User;
 import com.springboot.code.security.vo.UserVO;
 import org.hibernate.criterion.DetachedCriteria;
@@ -118,6 +121,29 @@ public class UserService extends DefaultService<User, String> {
 			logger.error(e.getMessage(), e);
 		}
 		return retval;
+	}
+	
+	@Transactional(readOnly = false)
+	public void commit(User entity, ServerInfo serverInfo) {
+		try {
+			User temp = new User();
+			if (StringUtils.isNotBlank(entity.getId())) {
+				 temp = findBy(entity.getId());
+			}
+			if (temp == null) {
+				temp = new User();
+				BeanUtils.copyProperties(entity, temp);
+			}
+			Set<ServerInfo> serverInfos = new HashSet<>();
+    		serverInfos = temp.getServerInfos();
+    		if(!serverInfos.contains(serverInfo)) {
+    			serverInfos.add(serverInfo);
+    			temp.setServerInfos(serverInfos);
+    		}
+			temp = merge(temp);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
 	}
 	
 	/**

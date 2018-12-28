@@ -44,6 +44,8 @@ export default {
   i18n_server_password: '服务器密码',
   i18n_server_info_result: '服务器信息查看结果',
   // fabric
+  i18n_fabric_onetap: '一键部署',
+  i18n_fabric_dividetap: '分步部署',
 
   // 权限管理
   i18n_permission_role_add: '添加角色',
