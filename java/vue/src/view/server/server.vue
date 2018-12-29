@@ -155,7 +155,6 @@ export default {
       this.getserver().then(res => {
         if (res.code === 200) {
           let serverVO = res.data['serverVO']
-          console.log(serverVO)
           if (serverVO !== undefined) {
             this.serverForm.serverIP = (serverVO.ip === null ? '' : serverVO.ip)
             this.serverForm.serverPort = (serverVO.port === null ? 22 : serverVO.port)

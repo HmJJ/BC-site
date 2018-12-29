@@ -5,36 +5,103 @@
         <Icon type="flash"></Icon>
         {{$t('i18n_fabric_onetap')}}
       </div>
-      <div style="text-align:center;margin-top: 20px;margin-bottom: 20px;">
-        <Button shape="circle" style="width:60%">开始部署</Button>
+      <div>
+        <Row>
+          <i-col span="3" style="text-align:right;margin-bottom: 20px;">
+            <p>Docker:</p>
+          </i-col>
+          <i-col span="21" style="text-align:center;margin-bottom: 20px;">
+            <p>{{ dockerInfo }}</p>
+          </i-col>
+          <i-col span="3" style="text-align:right;margin-bottom: 20px;">
+            <p>Docker-Compose:</p>
+          </i-col>
+          <i-col span="21" style="text-align:center;margin-bottom: 20px;">
+            <p>{{ dockerComposeInfo }}</p>
+          </i-col>
+          <i-col span="3" style="text-align:right;margin-bottom: 20px;">
+            <p>Go:</p>
+          </i-col>
+          <i-col span="21" style="text-align:center;margin-bottom: 20px;">
+            <p>{{ goInfo }}</p>
+          </i-col>
+          <i-col span="3" style="text-align:right;margin-bottom: 20px;">
+            <p>Git:</p>
+          </i-col>
+          <i-col span="21" style="text-align:center;margin-bottom: 20px;">
+            <p>{{ gitInfo }}</p>
+          </i-col>
+          <i-col span="3" style="text-align:right;margin-bottom: 20px;">
+            <p>Fabric-Source:</p>
+          </i-col>
+          <i-col span="21" style="text-align:center;margin-bottom: 20px;">
+            <p>{{ fabricSourceInfo }}</p>
+          </i-col>
+          <i-col span="24" style="margin-bottom: 20px;">
+            <hr />
+          </i-col>
+          <i-col span="24" style="text-align:center;margin-bottom: 10px;">
+            <Button shape="circle" style="width:60%" @click="oneTapBuild()">开始部署</Button>
+          </i-col>
+        </Row>
       </div>
-      <Spin size="large" fix v-if="spinShowConn"></Spin>
+      <Spin size="large" fix v-if="spinShowOneTap"></Spin>
     </Card>
     <Card style="width: auto;text-align: left;display: block;margin-left: auto;margin-right: auto;margin-bottom: 20px">
       <div slot="title">
         <Icon type="ios-pulse"></Icon>
         {{$t('i18n_fabric_dividetap')}}
       </div>
-      <div style="position:relative;">
-        <div style="text-align:center;height: 100px;margin-top: 20px;">
-          <p>{{ dividetapMessage }}</p>
-        </div>
-        <div style="text-align:center;margin-top: 20px;">
-          <Button shape="circle" style="width:60%">开始部署</Button>
-        </div>
+      <div>
+        <Row>
+          <i-col span="3" style="text-align:right;margin-bottom: 20px;">
+            <p>Docker:</p>
+          </i-col>
+          <i-col span="15" style="text-align:center;margin-bottom: 20px;">
+            <p>{{ dockerInfo }}</p>
+          </i-col>
+          <i-col span="6" style="text-align:center;margin-bottom: 20px;">
+            <Button shape="circle" style="width:60%" @click="subTapBuild('docker')">安装docker</Button>
+          </i-col>
+          <i-col span="3" style="text-align:right;margin-bottom: 20px;">
+            <p>Docker-Compose:</p>
+          </i-col>
+          <i-col span="15" style="text-align:center;margin-bottom: 20px;">
+            <p>{{ dockerComposeInfo }}</p>
+          </i-col>
+          <i-col span="6" style="text-align:center;margin-bottom: 20px;">
+            <Button shape="circle" style="width:60%" @click="subTapBuild('docker-compose')">安装docker-compose</Button>
+          </i-col>
+          <i-col span="3" style="text-align:right;margin-bottom: 20px;">
+            <p>Go:</p>
+          </i-col>
+          <i-col span="15" style="text-align:center;margin-bottom: 20px;">
+            <p>{{ goInfo }}</p>
+          </i-col>
+          <i-col span="6" style="text-align:center;margin-bottom: 20px;">
+            <Button shape="circle" style="width:60%" @click="subTapBuild('go')">安装go</Button>
+          </i-col>
+          <i-col span="3" style="text-align:right;margin-bottom: 20px;">
+            <p>Git:</p>
+          </i-col>
+          <i-col span="15" style="text-align:center;margin-bottom: 20px;">
+            <p>{{ gitInfo }}</p>
+          </i-col>
+          <i-col span="6" style="text-align:center;margin-bottom: 20px;">
+            <Button shape="circle" style="width:60%" @click="subTapBuild('git')">安装git</Button>
+          </i-col>
+          <i-col span="3" style="text-align:right;margin-bottom: 20px;">
+            <p>Fabric-Source:</p>
+          </i-col>
+          <i-col span="15" style="text-align:center;margin-bottom: 20px;">
+            <p>{{ fabricSourceInfo }}</p>
+          </i-col>
+          <i-col span="6" style="text-align:center;margin-bottom: 20px;">
+            <Button shape="circle" style="width:60%" @click="subTapBuild('fabric')">下载fabric源码</Button>
+          </i-col>
+        </Row>
       </div>
-      <Spin size="large" fix v-if="spinShowExecute"></Spin>
-      <Modal v-model="infoModal" width="40%">
-        <p slot="header" style="text-align:left">
-          <span>{{$t('i18n_server_info')}}</span>
-        </p>
-        <div style="text-align: center">
-          <p style="font-size: 15px;">{{ serverInfo }}</p>
-        </div>
-        <div slot="footer">
-          <Button type="success" long size="default" @click="cancelModal">{{$t('i18n_common_confirm')}}</Button>
-        </div>
-      </Modal>
+      <Spin size="large" fix v-if="spinShowSubTap"></Spin>
     </Card>
   </div>
 </template>
@@ -43,85 +110,77 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
-      dividetapMessage: '请点击下方按钮开始部署'
+      dockerInfo: '待检测',
+      dockerComposeInfo: '待检测',
+      goInfo: '待检测',
+      gitInfo: '待检测',
+      fabricSourceInfo: '待检测',
+      spinShowOneTap: false,
+      spinShowSubTap: false
     }
   },
-  created () {
-    this.keyupEnter()
+  mounted () {
+    this.init()
   },
   methods: {
-    ...mapActions(['connect', 'execute', 'getserver']),
+    ...mapActions(['oneTap', 'subTap', 'checkVersion']),
     init () {
-      this.spinShowConn = true
-      this.spinShowExecute = true
-      this.getserver().then(res => {
+      this.spinShowOneTap = true
+      this.spinShowSubTap = true
+      this.checkVersion().then(res => {
         if (res.code === 200) {
-          let serverVO = res.data['serverVO']
-          console.log(serverVO)
-          if (serverVO !== undefined) {
-            this.serverForm.serverIP = (serverVO.ip === null ? '' : serverVO.ip)
-            this.serverForm.serverPort = (serverVO.port === null ? 22 : serverVO.port)
-            this.serverForm.username = (serverVO.userName === null ? '' : serverVO.userName)
-            this.serverForm.password = (serverVO.userPwd === null ? '' : serverVO.userPwd)
+          let results = res.data
+          if (results !== undefined) {
+            this.dockerInfo = (results['docker'] === '' ? '待检测' : results['docker'])
+            this.dockerComposeInfo = (results['docker-compose'] === '' ? '待检测' : results['docker-compose'])
+            this.goInfo = (results['go'] === '' ? '待检测' : results['go'])
+            this.gitInfo = (results['git'] === '' ? '待检测' : results['git'])
+            this.fabricSourceInfo = (results['fabric'] === '' ? '待检测' : results['fabric'])
           }
-          this.connStatus = res.data['connStatus']
         } else {
-          this.$Message.error('服务器参数错误，请检查!')
+          this.$Message.error(res.msg)
         }
-        this.spinShowConn = false
-        this.spinShowExecute = false
+        this.spinShowOneTap = false
+        this.spinShowSubTap = false
       })
     },
-    handleSubmit (name) {
-      this.$refs[name].validate((valid) => {
-        if (valid) {
-          this.spinShowConn = true
-          var params = {ip: this.serverForm.serverIP, port: this.serverForm.serverPort, userName: this.serverForm.username, userPwd: this.serverForm.password}
-          this.connect(params).then(res => {
-            let result = res
-            if (result.code === 200) {
-              this.connStatus = res.data['connStatus']
-              this.$Message.success('连接成功')
-            }
-            this.spinShowConn = false
-          })
-        } else {
-          this.$Message.error('服务器参数错误，请检查!')
-        }
-      })
-    },
-    handleReset (name) {
-      this.$refs[name].resetFields()
-    },
-    checkInfo (cmd) {
-      this.spinShowExecute = true
-      this.execute({cmd: cmd}).then(res => {
+    oneTapBuild () {
+      this.spinShowOneTap = true
+      this.oneTap().then(res => {
         if (res.code === 200) {
-          this.serverInfo = res.data['result']
-          this.connStatus = res.data['connStatus']
-          this.infoModal = true
+          let results = res.data
+          if (results !== undefined) {
+            this.dockerInfo = (results['docker'] === '' ? '待检测' : results['docker'])
+            this.dockerComposeInfo = (results['docker-compose'] === '' ? '待检测' : results['docker-compose'])
+            this.goInfo = (results['go'] === '' ? '待检测' : results['go'])
+            this.gitInfo = (results['git'] === '' ? '待检测' : results['git'])
+            this.fabricSourceInfo = (results['fabric'] === '' ? '待检测' : results['fabric'])
+          }
+          this.$Message.success('部署完成')
         } else {
-          this.$Message.error('服务器参数错误，请检查!')
+          this.$Message.error(res.msg)
         }
-        this.spinShowExecute = false
+        this.spinShowOneTap = false
       })
     },
-    cancelModal () {
-      this.infoModal = false
-    },
-    keyupEnter () {
-      document.onkeydown = e => {
-        if (e.keyCode === 13 && this.spinShowExecute === false) {
-          this.executeDIY()
+    subTapBuild (name) {
+      this.spinShowSubTap = true
+      this.subTap({name: name}).then(res => {
+        if (res.code === 200) {
+          let results = res.data
+          if (results !== undefined) {
+            this.dockerInfo = (results['docker'] === '' ? '待检测' : results['docker'])
+            this.dockerComposeInfo = (results['docker-compose'] === '' ? '待检测' : results['docker-compose'])
+            this.goInfo = (results['go'] === '' ? '待检测' : results['go'])
+            this.gitInfo = (results['git'] === '' ? '待检测' : results['git'])
+            this.fabricSourceInfo = (results['fabric'] === '' ? '待检测' : results['fabric'])
+          }
+          this.$Message.success('部署完成')
+        } else {
+          this.$Message.error(res.msg)
         }
-      }
-    },
-    executeDIY () {
-      if (this.cmdDIY === '') {
-        this.$Message.error('参数为空！')
-      } else {
-        this.checkInfo(this.cmdDIY)
-      }
+        this.spinShowSubTap = false
+      })
     }
   }
 }

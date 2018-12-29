@@ -7,6 +7,7 @@ import schedule from './module/schedule'
 import resource from './module/resource'
 import role from './module/role'
 import server from './module/server'
+import fabric from './module/fabric'
 
 Vue.use(Vuex)
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     schedule,
     resource,
     role,
-    server
+    server,
+    fabric
   }
 })

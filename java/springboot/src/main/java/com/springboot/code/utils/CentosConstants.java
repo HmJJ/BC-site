@@ -9,7 +9,7 @@ public class CentosConstants {
     /**
      *  Centos 查看docker版本
      */
-    public static final String CENTOS_CHECK_DOCKER_VERSION = "docker version";
+    public static final String CENTOS_CHECK_DOCKER_VERSION = "docker --version";
 	/**
      *  Centos 卸载旧版docker
      */
@@ -71,7 +71,7 @@ public class CentosConstants {
     /**
      *  Centos 查看go版本
      */
-    public static final String CENTOS_CHECK_GO_VERSION = "go version";
+    public static final String CENTOS_CHECK_GO_VERSION = "bash -lc 'go version'";
     /**
      *  Centos 安装go 步骤一
      */
@@ -123,6 +123,10 @@ public class CentosConstants {
      */
     public static final String CENTOS_INSTALL_ZIP = "yum install zip unzip";
     
+    /**
+     *  查看 fabric文件位置
+     */
+    public static final String CENTOS_CHECK_FABRIC_POSITION = "find /opt/ -maxdepth 5 -path \"*fabric\"";
     /**
      *  Centos fabric源码下载
      */
