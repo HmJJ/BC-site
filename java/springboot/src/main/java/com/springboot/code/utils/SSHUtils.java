@@ -14,10 +14,12 @@ public class SSHUtils {
 
     private static SSHUtils instance;
 
+    public static SSHUtils getInstance() {
+        return instance;
+    }
+
     public static SSHUtils getInstance(String ip, Integer port, String userName, String userPwd) {
-        if (instance == null || (instance != null && !instance.login())) {
-            instance = new SSHUtils(ip, port, userName, userPwd);
-        }
+        instance = new SSHUtils(ip, port, userName, userPwd);
         return instance;
     }
 

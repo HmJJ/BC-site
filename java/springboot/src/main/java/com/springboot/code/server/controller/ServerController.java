@@ -56,13 +56,13 @@ public class ServerController {
         }
 
         Map<String, Object> map = new HashMap<>();
-        HttpSession session = attributes.getRequest().getSession();
 
         SSHUtils conn = SSHUtils.getInstance(serverVO.getIp(), serverVO.getPort(), serverVO.getUserName(), serverVO.getUserPwd());
 
         String result = "";
         Boolean isLogin = conn.login();
         if(isLogin) {
+        	HttpSession session = attributes.getRequest().getSession();
         	session.setAttribute("serverInfo", serverVO);
             session.setAttribute("connStatus", true);
         	CustomUserDetails details = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -72,7 +72,7 @@ public class ServerController {
     		}
     		User user = details.getUser();
     		
-    		ServerInfo serverInfo = serverService.findByIp(serverVO.getIp());
+    		ServerInfo serverInfo = serverService.findByIp(serverVO.getIp(), serverVO.getPort());
     		
     		if(serverInfo != null && !checkChange(serverVO, serverInfo)) {
     			serverInfo.setPort(serverVO.getPort());
@@ -91,7 +91,7 @@ public class ServerController {
     		map.put("result", result);
     		map.put("connStatus", isLogin);
         } else {
-        	map.put("connStatus", isLogin);
+        	map.put("connStatus", false);
         	return JSONObject.toJSONString(new VueCommonRespVO(VueCommonRespVO.CODE_FAILURE, map, "连接失败,请检查参数!"));
         }
 
@@ -118,7 +118,10 @@ public class ServerController {
             return JSONObject.toJSONString(new VueCommonRespVO(VueCommonRespVO.CODE_SUCCESS, Boolean.FALSE, "参数不正确或者为空，连接失败"));
         }
 
-        SSHUtils conn = SSHUtils.getInstance(serverVO.getIp(), serverVO.getPort(), serverVO.getUserName(), serverVO.getUserPwd());
+        SSHUtils conn = SSHUtils.getInstance();
+        if(conn == null) {        	
+        	conn = SSHUtils.getInstance(serverVO.getIp(), serverVO.getPort(), serverVO.getUserName(), serverVO.getUserPwd());
+        }
 
         Boolean isConn = conn.login();;
         
@@ -200,16 +203,22 @@ public class ServerController {
     	
     	if(newServer.getPort() == oldServer.getPort()) {
     		flag = true;
+    	} else {
+    		return flag;
     	}
     	
     	if(oldServer.getUserName().equals(newServer.getUserName())) {
     		flag = true;
+    	} else {
+    		return flag;
     	}
     	
     	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		if(encoder.matches(newServer.getUserPwd(), oldServer.getUserPwd())) {
 			flag = true;
-		}
+		} else {
+    		return flag;
+    	}
 		
 		return flag;
     }

@@ -173,6 +173,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           this.spinShowConn = true
+          this.connStatus = false
           var params = {ip: this.serverForm.serverIP, port: this.serverForm.serverPort, userName: this.serverForm.username, userPwd: this.serverForm.password}
           this.connect(params).then(res => {
             let result = res

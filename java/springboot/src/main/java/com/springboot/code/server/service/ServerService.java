@@ -31,7 +31,7 @@ public class ServerService extends DefaultService<ServerInfo, String> {
 	 * @param ip
 	 * @return
 	 */
-	public ServerInfo findByIp(final String ip) {
+	public ServerInfo findByIp(final String ip, final int port) {
 		if (StringUtils.isBlank(ip)) {
 			return null;
 		}
@@ -40,6 +40,9 @@ public class ServerService extends DefaultService<ServerInfo, String> {
 			public DetachedCriteria assembleParams(DetachedCriteria criteria) {
 				if(StringUtils.isNotBlank(ip)) {
 					criteria.add(Restrictions.eq("ip", ip));				
+				}
+				if(StringUtils.isNotBlank(ip)) {
+					criteria.add(Restrictions.eq("port", port));				
 				}
 				criteria.add(Restrictions.eq("delete", Boolean.FALSE));
 				return criteria;
@@ -59,7 +62,7 @@ public class ServerService extends DefaultService<ServerInfo, String> {
 		if(StringUtils.isBlank(serverVO.getIp())) {
 			return null;
 		}
-		ServerInfo temp = findByIp(serverVO.getIp());
+		ServerInfo temp = findByIp(serverVO.getIp(), serverVO.getPort());
 		try {
 			if (temp == null) {
 				temp = new ServerInfo();
