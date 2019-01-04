@@ -139,4 +139,9 @@ public class CentosConstants {
      *  Centos 解压下载的fabric
      */
     public static final String CENTOS_UNZIP_FABRIC = "unzip release-1.1.zip -d /opt/gopath/src/github.com/hyperledger && mv release-1.1 fabric";
+    
+    /**
+     *  Centos 运行fabric e2e_cli实例
+     */
+    public static final String CENTOS_FABRIC_E2E = "cd /opt/gopath/src/github.com/hyperledger/fabric/examples/e2e_cli && ./network_setup.sh up";
 }
