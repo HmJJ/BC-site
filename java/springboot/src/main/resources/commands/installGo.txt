@@ -1,0 +1,9 @@
+wget -P /usr/local/src https://dl.google.com/go/go1.10.7.linux-amd64.tar.gz
+tar -xvf /usr/local/src/go1.10.7.linux-amd64.tar.gz -C /usr/local
+mkdir -p /opt/gopath/src/github.com/hyperledger
+echo 'export GOROOT=/usr/local/go' >> /etc/profile
+echo 'export GOPATH=/opt/gopath' >> /etc/profile
+echo 'export PATH=$PATH:/usr/local/go/bin:$GOROOT/bin' >> /etc/profile
+source /etc/profile
+go get -u github.com/golang/lint/golint
+go install github.com/golang/lint/golint

@@ -1,0 +1,16 @@
+cd /opt/gopath/src/github.com/hyperledger
+wget https://github.com/hyperledger/fabric/archive/release-1.1.zip
+rm -rf fabric
+unzip release-1.1.zip 
+mv fabric-release-1.1 fabric
+cd fabric/scripts
+chmod +x bootstrap.sh
+./bootstrap.sh
+mkdir -p /opt/gopath/src/github.com/hyperledger/fabric/release/linux-amd64
+cp bin ../release/linux-amd64 -r
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+docker rmi --force $(docker images | grep example.com | awk '{print $3}')
+cd ../examples/e2e_cli
+chmod +x network_setup.sh
+./network_setup.sh up

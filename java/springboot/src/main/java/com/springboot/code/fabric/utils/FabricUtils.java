@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.springboot.code.utils.CentosConstants;
+import com.springboot.code.utils.ReadCommandUtils;
 import com.springboot.code.utils.SSHUtils;
 
 /**
@@ -12,6 +13,7 @@ import com.springboot.code.utils.SSHUtils;
 * 类说明
 */
 @Service(value="fabricUtils")
+@SuppressWarnings("unused")
 public class FabricUtils {
 	
 	/**
@@ -95,18 +97,22 @@ public class FabricUtils {
 		if(isInstalled(result)) {
 			return result;
 		} else {
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_DOCKER_STEP1);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_DOCKER_STEP2);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_DOCKER_STEP3);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_DOCKER_STEP4);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_DOCKER_STEP5);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_DOCKER_STEP6);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_DOCKER_STEP7);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_DOCKER_STEP8);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_DOCKER_STEP9);
+			result = conn.execute(ReadCommandUtils.getCommand("centos","installDocker").toString());
 			
 			return checkDocker(conn);
 		}
+	}
+	
+	/**
+	 * centos卸载docker
+	 * @param conn
+	 * @return
+	 */
+	public String centosUnInstallDocker(SSHUtils conn) {
+		String result = "";
+		result = conn.execute(ReadCommandUtils.getCommand("centos","uninstallDocker").toString());
+			
+		return checkDocker(conn);
 	}
 	
 	/**
@@ -120,37 +126,22 @@ public class FabricUtils {
 		if(isInstalled(result)) {
 			return result;
 		} else {
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_DOCKER_COMPOSE_STEP1);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_DOCKER_COMPOSE_STEP2);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_DOCKER_COMPOSE_STEP3);
+			result = conn.execute(ReadCommandUtils.getCommand("centos","installDockerCompose").toString());
 			
 			return checkDockerCompose(conn);
 		}
 	}
 	
 	/**
-	 * centos安装go
+	 * centos卸载docker-compose
 	 * @param conn
 	 * @return
 	 */
-	public String centosInstallGo(SSHUtils conn) {
+	public String centosUnInstallDockerCompose(SSHUtils conn) {
 		String result = "";
-		result = conn.execute(CentosConstants.CENTOS_CHECK_GO_VERSION);
-		if(isInstalled(result)) {
-			return result;
-		} else {
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_GO_STEP1);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_GO_STEP2);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_GO_STEP3);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_GO_STEP4);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_GO_STEP5);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_GO_STEP6);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_GO_STEP7);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_GO_STEP8);
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_GO_STEP9);
+		result = conn.execute(ReadCommandUtils.getCommand("centos","uninstallDockerCompose").toString());
 			
-			return checkGo(conn);
-		}
+		return checkDockerCompose(conn);
 	}
 	
 	/**
@@ -164,14 +155,67 @@ public class FabricUtils {
 		if(isInstalled(result)) {
 			return result;
 		} else {
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_GIT);
+			result = conn.execute(ReadCommandUtils.getCommand("centos","installGit").toString());
 			
 			return checkGit(conn);
 		}
 	}
 	
 	/**
-	 * 下载fabric源码
+	 * centos卸载git
+	 * @param conn
+	 * @return
+	 */
+	public String centosUnInstallGit(SSHUtils conn) {
+		String result = "";
+		result = conn.execute(ReadCommandUtils.getCommand("centos","uninstallGit").toString());
+			
+		return checkGit(conn);
+	}
+	
+	/**
+	 * centos安装工具
+	 * @param conn
+	 * @return
+	 */
+	public String installTools(SSHUtils conn) {
+		String result = "";
+		result = conn.execute(ReadCommandUtils.getCommand("centos","installTools").toString());
+			
+		return checkGo(conn);
+	}
+	
+	/**
+	 * 安装go
+	 * @param conn
+	 * @return
+	 */
+	public String installGo(SSHUtils conn) {
+		String result = "";
+		result = conn.execute(CentosConstants.CENTOS_CHECK_GO_VERSION);
+		if(isInstalled(result)) {
+			return result;
+		} else {
+			result = conn.execute(ReadCommandUtils.getCommand("linux","installGo").toString());
+			
+			return checkGo(conn);
+		}
+	}
+	
+	/**
+	 * 卸载go
+	 * @param conn
+	 * @return
+	 */
+	public String unInstallGo(SSHUtils conn) {
+		String result = "";
+		result = conn.execute(ReadCommandUtils.getCommand("linux","uninstallGo").toString());
+			
+		return checkGo(conn);
+	}
+	
+	/**
+	 * 下载fabric源码并且测试e2e_cli实例
 	 * @param conn
 	 * @return
 	 */
@@ -181,11 +225,7 @@ public class FabricUtils {
 		if(isInstalled(result)) {
 			return result;
 		} else {
-			result = conn.execute(CentosConstants.CENTOS_INSTALL_ZIP);
-			
-			result = conn.execute(CentosConstants.CENTOS_DOWNLOAD_FABRIC);
-			result = conn.execute(CentosConstants.CENTOS_REMOVE_FABRIC);
-			result = conn.execute(CentosConstants.CENTOS_UNZIP_FABRIC);
+			result = conn.execute(ReadCommandUtils.getCommand("linux","downloadAndTestFabric").toString());
 			
 			return checkFabricSource(conn);
 		}
@@ -197,8 +237,11 @@ public class FabricUtils {
 	 * @return
 	 */
 	public Boolean isInstalled(String result) {
-		if(result == null || result.isEmpty() ||
-				StringUtils.isBlank(result) || result.contains("command not found")) {			
+		if(result == null || result.isEmpty() || 
+				StringUtils.isBlank(result) || 
+				result.contains("command not found") || 
+				result.contains("No such file or directory") ||
+				result.contains("Permission denied")) {
 			return false;
 		} else {
 			return true;

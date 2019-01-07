@@ -5,9 +5,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
@@ -69,9 +71,63 @@ public class BuildEnvController {
 		case "CentOS":
 			results.put("docker", fabricUtils.centosInstallDocker(conn));
 			results.put("docker-compose", fabricUtils.centosInstallDockerCompose(conn));
-			results.put("go", fabricUtils.centosInstallGo(conn));
+			results.put("go", fabricUtils.installGo(conn));
 			results.put("git", fabricUtils.centosInstallGit(conn));
 			results.put("fabric", fabricUtils.downloadFabric(conn));
+			break;
+		case "Ubuntu":
+			break;
+		default:
+			break;
+		}
+		
+		return JSON.toJSONString(new VueCommonRespVO(results));
+	}
+
+	/**
+	 * 执行分步部署
+	 * @param commom
+	 * @return
+	 */
+	@RequestMapping("subTap")
+	@ResponseBody
+	public String subTapBuildEnv(CommonRequestAttributes commom, @RequestParam String type) {
+		if(StringUtils.isBlank(type)) {
+			return JSON.toJSONString(new VueCommonRespVO(VueCommonRespVO.CODE_FAILURE, "请检查参数"));
+		}
+		SSHUtils conn = getConn(commom);
+		if(conn == null) {
+			return JSON.toJSONString(new VueCommonRespVO(VueCommonRespVO.CODE_FAILURE, "请检查服务器连接设置！"));
+		}
+		String releaseInfo = conn.execute(BCsiteConstants.LINUX_CHECK_RELEASE);
+		String release = releaseInfo.substring(0, releaseInfo.indexOf(" "));
+		Map<String, Object> results = new HashMap<String, Object>();
+		switch (release) {
+		case "CentOS":
+			switch (type) {
+			case "docker":
+				results.put("docker-uninstall", fabricUtils.centosUnInstallDocker(conn));
+				results.put("docker", fabricUtils.centosInstallDocker(conn));
+				break;
+			case "docker-compose":				
+				results.put("docker-compose-uninstall", fabricUtils.centosUnInstallDockerCompose(conn));
+				results.put("docker-compose", fabricUtils.centosInstallDockerCompose(conn));
+				break;
+			case "go":				
+				results.put("go-uninstall", fabricUtils.unInstallGo(conn));
+				results.put("go", fabricUtils.installGo(conn));
+				break;
+			case "git":				
+				results.put("git-uninstall", fabricUtils.centosUnInstallGit(conn));
+				results.put("git", fabricUtils.centosInstallGit(conn));
+				break;
+			case "fabric":				
+				results.put("tools-install", fabricUtils.installTools(conn));
+				results.put("fabric", fabricUtils.downloadFabric(conn));
+				break;
+			default:
+				break;
+			}
 			break;
 		case "Ubuntu":
 			break;
