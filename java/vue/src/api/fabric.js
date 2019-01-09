@@ -25,3 +25,13 @@ export const subTapFabric = ({name}) => {
     method: 'post'
   })
 }
+
+export const testFabric = () => {
+  return axios.request({
+    url: 'buildFabricEnv/testE2e',
+    params: {
+      name
+    },
+    method: 'post'
+  })
+}

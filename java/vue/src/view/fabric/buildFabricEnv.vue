@@ -44,7 +44,7 @@
             <Button shape="circle" style="width:60%" @click="oneTapBuild()">开始部署</Button>
           </i-col>
           <i-col span="4" style="text-align:left;margin-bottom: 10px;">
-            <Button shape="circle" style="width:60%" @click="testFabric()">测试fabric</Button>
+            <Button shape="circle" style="width:60%" @click="testFabricE2e()">测试fabric</Button>
           </i-col>
         </Row>
       </div>
@@ -126,7 +126,7 @@ export default {
     this.init()
   },
   methods: {
-    ...mapActions(['oneTapFabric', 'subTapFabric', 'checkVersionFabric']),
+    ...mapActions(['oneTapFabric', 'subTapFabric', 'checkVersionFabric', 'testFabric']),
     init () {
       this.spinShowOneTap = true
       this.spinShowSubTap = true
@@ -194,6 +194,24 @@ export default {
         } else {
           this.$Message.error(res.msg)
         }
+        this.spinShowSubTap = false
+      })
+    },
+    testFabricE2e () {
+      this.spinShowOneTap = true
+      this.spinShowSubTap = true
+      this.testFabric().then(res => {
+        if (res.code === 200) {
+          let results = res.data
+          if (results !== undefined) {
+            this.$Message.error(results['e2e_cli'])
+          } else {
+            this.$Message.success(results['e2e_cli'])
+          }
+        } else {
+          this.$Message.error(res.msg)
+        }
+        this.spinShowOneTap = false
         this.spinShowSubTap = false
       })
     }

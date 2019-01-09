@@ -137,6 +137,24 @@ public class BuildFabricEnvController {
 		
 		return JSON.toJSONString(new VueCommonRespVO(results));
 	}
+
+	/**
+	 * 测试fabric e2e_cli实例
+	 * @param commom
+	 * @return
+	 */
+	@RequestMapping("testE2e")
+	@ResponseBody
+	public String testFabric(CommonRequestAttributes commom) {
+		SSHUtils conn = getConn(commom);
+		if(conn == null) {
+			return JSON.toJSONString(new VueCommonRespVO(VueCommonRespVO.CODE_FAILURE, "请检查服务器连接设置！"));
+		}
+		Map<String, Object> results = new HashMap<String, Object>();
+		results.put("e2e_cli", fabricUtils.testFabric(conn));
+		
+		return JSON.toJSONString(new VueCommonRespVO(results));
+	}
 	
 	/**
 	 * 获得服务器连接对象

@@ -1,12 +1,19 @@
 package com.springboot.code.utils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+
 import ch.ethz.ssh2.Connection;
+import ch.ethz.ssh2.SCPClient;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.*;
+import sun.net.ftp.FtpClient;
 
 public class SSHUtils {
 
@@ -93,6 +100,23 @@ public class SSHUtils {
             e.printStackTrace();
         }
         return result;
+    }
+
+    /**
+     * 上传文件
+     * */
+    public void upload(String localTargetDirectory, String remoteFileDir)
+    {
+        try{
+            if(login())
+            {
+            	File file = new File(localTargetDirectory);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+        	conn.close();			
+		}
     }
 
     public String executeSuccess(String cmd)

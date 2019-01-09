@@ -8,7 +8,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
+
+import com.springboot.basic.support.CommonRequestAttributes;
+import com.springboot.code.server.vo.ServerVO;
 
 /**
 * @author nott
@@ -17,6 +22,12 @@ import org.apache.commons.lang3.StringUtils;
 */
 public class ReadCommandUtils {
 
+	/**
+	 * 获得操作命令
+	 * @param OSType
+	 * @param actName
+	 * @return
+	 */
 	public static StringBuffer getCommand(String OSType, String actName) {
 		
 		if(StringUtils.isBlank(actName)) {
@@ -50,6 +61,11 @@ public class ReadCommandUtils {
 		
 	}
 
+	/**
+	 * 读取操作文件内容
+	 * @param file
+	 * @return
+	 */
 	private static StringBuffer readCommand(File file) {
 		
 		StringBuffer command = new StringBuffer();
@@ -67,7 +83,8 @@ public class ReadCommandUtils {
 					continue;
 				}
 				if(StringUtils.isNotEmpty(command)) {
-					command.append(" && " + line);										
+					command.append("\r\n"); 
+					command.append(line);										
 				} else {
 					command.append(line);					
 				}
@@ -79,6 +96,79 @@ public class ReadCommandUtils {
 			e.printStackTrace();
 		}
 		return command;
+	}
+	
+	/**
+	 * 上传执行脚本到服务器
+	 * @param OSType
+	 * @param actName
+	 * @return
+	 */
+	public static String uploadCommand(SSHUtils conn, String OSType, String actName) {
+		String result = "";
+		if(StringUtils.isBlank(actName)) {
+			return result;
+		}
+		String path = "";
+		
+		try {
+			switch (OSType) {
+			case "centos":					
+				path = ReadCommandUtils.class.getClassLoader().getResource("commands/centos/"+actName+".sh").getPath();
+				break;
+			case "ubuntu":					
+				path = ReadCommandUtils.class.getClassLoader().getResource("commands/ubuntu/"+actName+".sh").getPath();
+				break;
+			default:
+				path = ReadCommandUtils.class.getClassLoader().getResource("commands/"+actName+".sh").getPath();
+				break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(StringUtils.isBlank(path)) {
+			return result;
+		}
+		
+		result = upload(conn, path, actName);
+		
+		return result;
+		
+	}
+	
+	/**
+	 * 执行上传并赋可执行权限
+	 * @param conn
+	 * @param remoteFile
+	 * @param actName
+	 * @return
+	 */
+	private static String upload(SSHUtils conn, String remoteFile, String actName) {
+		String result = "";
+		result = conn.execute("mkdir -p /opt/commands");
+		String localTargetFileDir = "/opt/commands/";
+		conn.upload(remoteFile, localTargetFileDir);
+		result = conn.execute("chmod +x /opt/commands/" + actName + ".sh");
+		result = conn.execute("find /opt/commands/ -maxdepth 5 -path \\\"*" + actName + ".sh \\\"");
+		return result;
+	}
+	
+	/**
+	 * 获得服务器连接对象
+	 * @param commom
+	 * @return
+	 */
+	public static SSHUtils getConn(CommonRequestAttributes commom) {
+		HttpSession session = commom.getRequest().getSession();
+		if (session.getAttribute("serverInfo") == null) {
+			return null;
+		}
+		ServerVO serverVO = (ServerVO) session.getAttribute("serverInfo");
+
+		SSHUtils conn = SSHUtils.getInstance(serverVO.getIp(), serverVO.getPort(), serverVO.getUserName(),
+				serverVO.getUserPwd());
+		return conn;
 	}
 	
 }

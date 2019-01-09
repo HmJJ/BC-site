@@ -1,4 +1,4 @@
-import { oneTapFabric, subTapFabric, checkVersionFabric } from '@/api/fabric'
+import { oneTapFabric, subTapFabric, checkVersionFabric, testFabric } from '@/api/fabric'
 
 export default {
   actions: {
@@ -23,6 +23,15 @@ export default {
     subTapFabric ({commit}, {name}) {
       return new Promise((resolve, reject) => {
         subTapFabric({name}).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    testFabric ({commit}) {
+      return new Promise((resolve, reject) => {
+        testFabric().then(res => {
           resolve(res)
         }).catch(err => {
           reject(err)

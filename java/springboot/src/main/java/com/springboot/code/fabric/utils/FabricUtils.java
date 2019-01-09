@@ -3,6 +3,7 @@ package com.springboot.code.fabric.utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import com.springboot.basic.support.CommonRequestAttributes;
 import com.springboot.code.utils.CentosConstants;
 import com.springboot.code.utils.ReadCommandUtils;
 import com.springboot.code.utils.SSHUtils;
@@ -97,7 +98,8 @@ public class FabricUtils {
 		if(isInstalled(result)) {
 			return result;
 		} else {
-			result = conn.execute(ReadCommandUtils.getCommand("centos","installDocker").toString());
+			result = ReadCommandUtils.uploadCommand(conn, "centos","installDocker");
+			result = conn.execute("./opt/command/installDocker.sh");
 			
 			return checkDocker(conn);
 		}
@@ -110,8 +112,9 @@ public class FabricUtils {
 	 */
 	public String centosUnInstallDocker(SSHUtils conn) {
 		String result = "";
-		result = conn.execute(ReadCommandUtils.getCommand("centos","uninstallDocker").toString());
-			
+		result = ReadCommandUtils.uploadCommand(conn, "centos","uninstallDocker");
+		result = conn.execute("./opt/command/uninstallDocker.sh");
+		
 		return checkDocker(conn);
 	}
 	
@@ -126,7 +129,8 @@ public class FabricUtils {
 		if(isInstalled(result)) {
 			return result;
 		} else {
-			result = conn.execute(ReadCommandUtils.getCommand("centos","installDockerCompose").toString());
+			result = ReadCommandUtils.uploadCommand(conn, "centos","installDockerCompose");
+			result = conn.execute("./opt/command/installDockerCompose.sh");
 			
 			return checkDockerCompose(conn);
 		}
@@ -139,8 +143,9 @@ public class FabricUtils {
 	 */
 	public String centosUnInstallDockerCompose(SSHUtils conn) {
 		String result = "";
-		result = conn.execute(ReadCommandUtils.getCommand("centos","uninstallDockerCompose").toString());
-			
+		result = ReadCommandUtils.uploadCommand(conn, "centos","uninstallDockerCompose");
+		result = conn.execute("./opt/command/uninstallDockerCompose.sh");
+		
 		return checkDockerCompose(conn);
 	}
 	
@@ -155,7 +160,8 @@ public class FabricUtils {
 		if(isInstalled(result)) {
 			return result;
 		} else {
-			result = conn.execute(ReadCommandUtils.getCommand("centos","installGit").toString());
+			result = ReadCommandUtils.uploadCommand(conn, "centos","installGit");
+			result = conn.execute("./opt/command/installGit.sh");
 			
 			return checkGit(conn);
 		}
@@ -168,8 +174,9 @@ public class FabricUtils {
 	 */
 	public String centosUnInstallGit(SSHUtils conn) {
 		String result = "";
-		result = conn.execute(ReadCommandUtils.getCommand("centos","uninstallGit").toString());
-			
+		result = ReadCommandUtils.uploadCommand(conn, "centos","uninstallGit");
+		result = conn.execute("./opt/command/uninstallGit.sh");
+		
 		return checkGit(conn);
 	}
 	
@@ -180,8 +187,9 @@ public class FabricUtils {
 	 */
 	public String installTools(SSHUtils conn) {
 		String result = "";
-		result = conn.execute(ReadCommandUtils.getCommand("centos","installFabricTools").toString());
-			
+		result = ReadCommandUtils.uploadCommand(conn, "centos","installFabricTools");
+		result = conn.execute("./opt/command/installFabricTools.sh");
+		
 		return checkGo(conn);
 	}
 	
@@ -196,7 +204,8 @@ public class FabricUtils {
 		if(isInstalled(result)) {
 			return result;
 		} else {
-			result = conn.execute(ReadCommandUtils.getCommand("linux","installGo").toString());
+			result = ReadCommandUtils.uploadCommand(conn, "linux","installGo");
+			result = conn.execute("./opt/command/installGo.sh");
 			
 			return checkGo(conn);
 		}
@@ -209,8 +218,9 @@ public class FabricUtils {
 	 */
 	public String unInstallGo(SSHUtils conn) {
 		String result = "";
-		result = conn.execute(ReadCommandUtils.getCommand("linux","uninstallGo").toString());
-			
+		result = ReadCommandUtils.uploadCommand(conn, "linux","uninstallGo");
+		result = conn.execute("./opt/command/uninstallGo.sh");
+		
 		return checkGo(conn);
 	}
 	
@@ -225,7 +235,8 @@ public class FabricUtils {
 		if(isInstalled(result)) {
 			return result;
 		} else {
-			result = conn.execute(ReadCommandUtils.getCommand("linux","downloadFabric").toString());
+			result = ReadCommandUtils.uploadCommand(conn, "linux","downloadFabric");
+			result = conn.execute("./opt/command/downloadFabric.sh");
 			
 			return checkFabricSource(conn);
 		}
@@ -240,11 +251,11 @@ public class FabricUtils {
 		String result = "";
 		result = conn.execute(CentosConstants.CENTOS_CHECK_FABRIC_POSITION);
 		if(isInstalled(result)) {
-			return result;
+			result = ReadCommandUtils.uploadCommand(conn,"linux","testFabric");
+			result = conn.execute("./opt/command/testFabric.sh");
+			return result.substring(result.length()-50, result.length()-1);
 		} else {
-			result = conn.execute(ReadCommandUtils.getCommand("linux","testFabric").toString());
-			
-			return checkFabricSource(conn);
+			return result;			
 		}
 	}
 	
