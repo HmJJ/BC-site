@@ -40,8 +40,11 @@
           <i-col span="24" style="margin-bottom: 20px;">
             <hr />
           </i-col>
-          <i-col span="24" style="text-align:center;margin-bottom: 10px;">
+          <i-col span="20" style="text-align:center;margin-bottom: 10px;">
             <Button shape="circle" style="width:60%" @click="oneTapBuild()">开始部署</Button>
+          </i-col>
+          <i-col span="4" style="text-align:left;margin-bottom: 10px;">
+            <Button shape="circle" style="width:60%" @click="testFabric()">测试fabric</Button>
           </i-col>
         </Row>
       </div>
@@ -97,7 +100,7 @@
             <p>{{ fabricSourceInfo }}</p>
           </i-col>
           <i-col span="6" style="text-align:center;margin-bottom: 20px;">
-            <Button shape="circle" style="width:60%" @click="subTapBuild('fabric')">下载fabric源码</Button>
+            <Button shape="circle" style="width:60%" @click="subTapBuild('fabric')">下载测试fabric源码</Button>
           </i-col>
         </Row>
       </div>
@@ -123,11 +126,11 @@ export default {
     this.init()
   },
   methods: {
-    ...mapActions(['oneTap', 'subTap', 'checkVersion']),
+    ...mapActions(['oneTapFabric', 'subTapFabric', 'checkVersionFabric']),
     init () {
       this.spinShowOneTap = true
       this.spinShowSubTap = true
-      this.checkVersion().then(res => {
+      this.checkVersionFabric().then(res => {
         if (res.code === 200) {
           let results = res.data
           if (results !== undefined) {
@@ -146,7 +149,7 @@ export default {
     },
     oneTapBuild () {
       this.spinShowOneTap = true
-      this.oneTap().then(res => {
+      this.oneTapFabric().then(res => {
         if (res.code === 200) {
           let results = res.data
           if (results !== undefined) {
@@ -165,17 +168,29 @@ export default {
     },
     subTapBuild (name) {
       this.spinShowSubTap = true
-      this.subTap({name: name}).then(res => {
+      this.subTapFabric({name: name}).then(res => {
         if (res.code === 200) {
           let results = res.data
           if (results !== undefined) {
-            this.dockerInfo = (results['docker'] === '' ? '待检测' : results['docker'])
-            this.dockerComposeInfo = (results['docker-compose'] === '' ? '待检测' : results['docker-compose'])
-            this.goInfo = (results['go'] === '' ? '待检测' : results['go'])
-            this.gitInfo = (results['git'] === '' ? '待检测' : results['git'])
-            this.fabricSourceInfo = (results['fabric'] === '' ? '待检测' : results['fabric'])
+            switch (name) {
+              case 'docker':
+                this.dockerInfo = (results['docker'] === '' ? '待检测' : results['docker'])
+                break
+              case 'docker-compose':
+                this.dockerComposeInfo = (results['docker-compose'] === '' ? '待检测' : results['docker-compose'])
+                break
+              case 'go':
+                this.goInfo = (results['go'] === '' ? '待检测' : results['go'])
+                break
+              case 'git':
+                this.gitInfo = (results['git'] === '' ? '待检测' : results['git'])
+                break
+              case 'fabric':
+                this.fabricSourceInfo = (results['fabric'] === '' ? '待检测' : results['fabric'])
+                break
+            }
           }
-          this.$Message.success('部署完成')
+          this.$Message.success(results[name])
         } else {
           this.$Message.error(res.msg)
         }

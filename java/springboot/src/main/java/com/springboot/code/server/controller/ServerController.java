@@ -169,7 +169,7 @@ public class ServerController {
 		if(serverVO == null && !serverInfos.isEmpty()) {
 			serverVO = new ServerVO();
 			List<ServerInfo> serverList = new ArrayList<ServerInfo>(serverInfos);
-			ServerInfo serverInfo = serverList.get(0);
+			ServerInfo serverInfo = serverList.get(serverList.size()-1);
 			serverVO.setIp(serverInfo.getIp());
 			serverVO.setPort(serverInfo.getPort());
 			serverVO.setUserName(serverInfo.getUserName());

@@ -1,0 +1,6 @@
+cd /opt/gopath/src/github.com/hyperledger
+rm -rf release-1.1.zip
+wget https://github.com/hyperledger/fabric/archive/release-1.1.zip
+rm -rf fabric
+unzip release-1.1.zip 
+mv fabric-release-1.1 fabric

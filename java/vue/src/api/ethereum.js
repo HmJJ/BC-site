@@ -1,24 +1,24 @@
 import axios from '@/libs/api.request'
 
-export const checkVersionFabric = () => {
+export const checkVersionEth = () => {
   return axios.request({
-    url: 'buildFabricEnv/checkVersion',
+    url: 'buildEthEnv/checkVersion',
     params: {},
     method: 'post'
   })
 }
 
-export const oneTapFabric = () => {
+export const oneTapEth = () => {
   return axios.request({
-    url: 'buildFabricEnv/oneTap',
+    url: 'buildEthEnv/oneTap',
     params: {},
     method: 'post'
   })
 }
 
-export const subTapFabric = ({name}) => {
+export const subTapEth = ({name}) => {
   return axios.request({
-    url: 'buildFabricEnv/subTap',
+    url: 'buildEthEnv/subTap',
     params: {
       name
     },

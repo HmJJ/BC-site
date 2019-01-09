@@ -25,8 +25,8 @@ import com.springboot.code.vo.VueCommonRespVO;
  * @version 创建时间：2018年12月27日上午11:14:45 类说明
  */
 @Controller
-@RequestMapping("buildEnv")
-public class BuildEnvController {
+@RequestMapping("buildFabricEnv")
+public class BuildFabricEnvController {
 	
 	@Autowired private FabricUtils fabricUtils;
 	
@@ -91,8 +91,8 @@ public class BuildEnvController {
 	 */
 	@RequestMapping("subTap")
 	@ResponseBody
-	public String subTapBuildEnv(CommonRequestAttributes commom, @RequestParam String type) {
-		if(StringUtils.isBlank(type)) {
+	public String subTapBuildEnv(CommonRequestAttributes commom, @RequestParam String name) {
+		if(StringUtils.isBlank(name)) {
 			return JSON.toJSONString(new VueCommonRespVO(VueCommonRespVO.CODE_FAILURE, "请检查参数"));
 		}
 		SSHUtils conn = getConn(commom);
@@ -104,7 +104,7 @@ public class BuildEnvController {
 		Map<String, Object> results = new HashMap<String, Object>();
 		switch (release) {
 		case "CentOS":
-			switch (type) {
+			switch (name) {
 			case "docker":
 				results.put("docker-uninstall", fabricUtils.centosUnInstallDocker(conn));
 				results.put("docker", fabricUtils.centosInstallDocker(conn));

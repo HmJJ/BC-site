@@ -180,7 +180,7 @@ public class FabricUtils {
 	 */
 	public String installTools(SSHUtils conn) {
 		String result = "";
-		result = conn.execute(ReadCommandUtils.getCommand("centos","installTools").toString());
+		result = conn.execute(ReadCommandUtils.getCommand("centos","installFabricTools").toString());
 			
 		return checkGo(conn);
 	}
@@ -225,7 +225,24 @@ public class FabricUtils {
 		if(isInstalled(result)) {
 			return result;
 		} else {
-			result = conn.execute(ReadCommandUtils.getCommand("linux","downloadAndTestFabric").toString());
+			result = conn.execute(ReadCommandUtils.getCommand("linux","downloadFabric").toString());
+			
+			return checkFabricSource(conn);
+		}
+	}
+	
+	/**
+	 * 测试fabric e2e_cli实例
+	 * @param conn
+	 * @return
+	 */
+	public String testFabric(SSHUtils conn) {
+		String result = "";
+		result = conn.execute(CentosConstants.CENTOS_CHECK_FABRIC_POSITION);
+		if(isInstalled(result)) {
+			return result;
+		} else {
+			result = conn.execute(ReadCommandUtils.getCommand("linux","testFabric").toString());
 			
 			return checkFabricSource(conn);
 		}

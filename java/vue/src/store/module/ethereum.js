@@ -1,28 +1,28 @@
-import { oneTapFabric, subTapFabric, checkVersionFabric } from '@/api/fabric'
+import { oneTapEth, subTapEth, checkVersionEth } from '@/api/ethereum'
 
 export default {
   actions: {
-    checkVersionFabric ({commit}) {
+    checkVersionEth ({commit}) {
       return new Promise((resolve, reject) => {
-        checkVersionFabric().then(res => {
+        checkVersionEth().then(res => {
           resolve(res)
         }).catch(err => {
           reject(err)
         })
       })
     },
-    oneTapFabric ({commit}) {
+    oneTapEth ({commit}) {
       return new Promise((resolve, reject) => {
-        oneTapFabric().then(res => {
+        oneTapEth().then(res => {
           resolve(res)
         }).catch(err => {
           reject(err)
         })
       })
     },
-    subTapFabric ({commit}, {name}) {
+    subTapEth ({commit}, {cmd}) {
       return new Promise((resolve, reject) => {
-        subTapFabric({name}).then(res => {
+        subTapEth({cmd}).then(res => {
           resolve(res)
         }).catch(err => {
           reject(err)

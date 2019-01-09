@@ -31,4 +31,9 @@ public class CentosConstants {
      */
     public static final String CENTOS_CHECK_FABRIC_POSITION = "find /opt/ -maxdepth 5 -path \"*fabric\"";
     
+    /**
+     *  查看 geth版本
+     */
+    public static final String CENTOS_CHECK_GETH_VERSION = "geth version";
+    
 }
