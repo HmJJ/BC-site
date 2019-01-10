@@ -252,10 +252,17 @@ public class FabricUtils {
 		result = conn.execute(CentosConstants.CENTOS_CHECK_FABRIC_POSITION);
 		if(isInstalled(result)) {
 			result = ReadCommandUtils.uploadCommand(conn,"linux","testFabric");
-			result = conn.execute("./opt/command/testFabric.sh");
-			return result.substring(result.length()-50, result.length()-1);
+			if(!isInstalled(result)) {
+				return "上传失败";
+			}
+			result = conn.execute("bash /opt/commands/testFabric.sh");
+			if(result.length() <= 50) {
+				return result;
+			} else {				
+				return result.substring(result.length()-50, result.length()-1);
+			}
 		} else {
-			return result;			
+			return result;
 		}
 	}
 	

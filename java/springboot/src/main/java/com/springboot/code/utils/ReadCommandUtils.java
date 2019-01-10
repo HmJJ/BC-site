@@ -144,13 +144,16 @@ public class ReadCommandUtils {
 	 * @param actName
 	 * @return
 	 */
-	private static String upload(SSHUtils conn, String remoteFile, String actName) {
+	private static String upload(SSHUtils conn, String localTargetFile, String actName) {
 		String result = "";
 		result = conn.execute("mkdir -p /opt/commands");
-		String localTargetFileDir = "/opt/commands/";
-		conn.upload(remoteFile, localTargetFileDir);
-		result = conn.execute("chmod +x /opt/commands/" + actName + ".sh");
-		result = conn.execute("find /opt/commands/ -maxdepth 5 -path \\\"*" + actName + ".sh \\\"");
+		String remoteFileDir = "/opt/commands/";
+		conn.createChannel();
+		conn.upload(localTargetFile, remoteFileDir);
+		conn.closeChannel();
+//		result = conn.execute("cd /opt/commands");
+//		result = conn.execute("chmod +x /opt/commands/" + actName + ".sh");
+		result = conn.execute("find /opt/commands/ -maxdepth 1 -path \"*" + actName + ".sh\"");
 		return result;
 	}
 	

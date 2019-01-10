@@ -1,3 +1,4 @@
+#!/bin/sh
 cd /usr/local
 git clone https://github.com/ethereum/go-ethereum.git
 cd go-ethereum
