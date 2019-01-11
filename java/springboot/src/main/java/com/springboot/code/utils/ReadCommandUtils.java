@@ -146,7 +146,7 @@ public class ReadCommandUtils {
 	 */
 	private static String upload(SSHUtils conn, String localTargetFile, String actName) {
 		String result = "";
-		result = conn.execute("mkdir -p /opt/commands");
+		result = conn.execute("mkdir -p /opt/commands/logs");
 		String remoteFileDir = "/opt/commands/";
 		conn.createChannel();
 		conn.upload(localTargetFile, remoteFileDir);

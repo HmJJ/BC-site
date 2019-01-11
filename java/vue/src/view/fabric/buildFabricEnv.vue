@@ -46,6 +46,9 @@
           <i-col span="4" style="text-align:left;margin-bottom: 10px;">
             <Button shape="circle" style="width:60%" @click="testFabricE2e()">测试fabric</Button>
           </i-col>
+          <i-col span="24" style="text-align:center;margin-bottom: 10px;">
+            <p>{{ e2eStatus }}</p>
+          </i-col>
         </Row>
       </div>
       <Spin size="large" fix v-if="spinShowOneTap"></Spin>
@@ -118,6 +121,7 @@ export default {
       goInfo: '待检测',
       gitInfo: '待检测',
       fabricSourceInfo: '待检测',
+      e2eStatus: '待测试',
       spinShowOneTap: false,
       spinShowSubTap: false
     }
@@ -204,9 +208,11 @@ export default {
         if (res.code === 200) {
           let results = res.data
           if (results !== undefined) {
-            this.$Message.error(results['e2e_cli'])
-          } else {
             this.$Message.success(results['e2e_cli'])
+            this.e2eStatus = results['e2e_cli']
+          } else {
+            this.$Message.error(results['e2e_cli'])
+            this.e2eStatus = '运行失败'
           }
         } else {
           this.$Message.error(res.msg)
