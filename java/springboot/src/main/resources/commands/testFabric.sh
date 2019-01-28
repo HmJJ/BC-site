@@ -31,6 +31,7 @@ fi
 
 if [ -f "/opt/gopath/src/github.com/hyperledger/fabric/examples/e2e_cli/base/peer-base.yaml" ];then
 	sed -i "s/e2e_default/e2e_cli_default/g" /opt/gopath/src/github.com/hyperledger/fabric/examples/e2e_cli/base/peer-base.yaml
+	sed -i "s/e2ecli_default/e2e_cli_default/g" /opt/gopath/src/github.com/hyperledger/fabric/examples/e2e_cli/base/peer-base.yaml
 	cat /opt/gopath/src/github.com/hyperledger/fabric/examples/e2e_cli/base/peer-base.yaml
 else
 	echo "peer-base.yaml not exists"

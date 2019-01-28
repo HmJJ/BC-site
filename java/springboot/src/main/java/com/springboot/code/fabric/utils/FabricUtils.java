@@ -250,7 +250,7 @@ public class FabricUtils {
 	public String testFabric(SSHUtils conn) {
 		String result = "";
 		result = conn.execute("find /opt/commands/logs -maxdepth 1 -path \"*testFabricResult.log\"");
-		if(StringUtils.isBlank(result)) {
+		if(StringUtils.isBlank(result) || !isInstalled(result)) {
 			result = execTest(conn);
 		} else {
 			result = conn.execute("tail -n 9 /opt/commands/logs/testFabricResult.log");
