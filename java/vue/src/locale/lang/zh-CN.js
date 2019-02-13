@@ -43,9 +43,20 @@ export default {
   i18n_server_username: '服务器用户名',
   i18n_server_password: '服务器密码',
   i18n_server_info_result: '服务器信息查看结果',
+
   // fabric
   i18n_fabric_onetap: '一键部署(以下步骤所需时间可能较长，请耐心等待~)',
   i18n_fabric_dividetap: '分步部署(以下步骤所需时间可能较长，请耐心等待~)',
+  i18n_fabric_build_env: '环境搭建',
+  i18n_fabric_deploy_chaincode: '合约部署',
+  i18n_fabric_test_chaincode: '合约测试',
+
+  // ethereum
+  i18n_eth_onetap: '一键部署(以下步骤所需时间可能较长，请耐心等待~)',
+  i18n_eth_dividetap: '分步部署(以下步骤所需时间可能较长，请耐心等待~)',
+  i18n_eth_build_env: '环境搭建',
+  i18n_eth_deploy_chaincode: '合约部署',
+  i18n_eth_test_chaincode: '合约测试',
 
   // 权限管理
   i18n_permission_role_add: '添加角色',
@@ -173,8 +184,5 @@ export default {
   i18n_common_enable: '启用',
   i18n_common_disable: '禁用',
   i18n_common_need: '需要',
-  i18n_common_not_need: '不需要',
-  i18n_blockchain_deploy_chaincode: '合约部署',
-  i18n_blockchain_test_chaincode: '合约测试',
-  i18n_build_env: '环境搭建'
+  i18n_common_not_need: '不需要'
 }

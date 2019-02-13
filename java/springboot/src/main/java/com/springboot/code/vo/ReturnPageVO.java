@@ -10,7 +10,6 @@ import lombok.Data;
  * 分页都用这个
  * @param <T>
  */
-@SuppressWarnings("hiding")
 @Data
 public class ReturnPageVO< T > implements Serializable {
 	/**

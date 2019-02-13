@@ -215,6 +215,7 @@ public class SSHUtils {
 	/**
 	 * 解析脚本执行返回的结果集
 	 */
+	@SuppressWarnings("resource")
 	public static String processStdout(InputStream is, String charset) {
 		InputStream inputStream = new StreamGobbler(is);
 		StringBuffer sb = new StringBuffer();

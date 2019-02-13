@@ -45,7 +45,7 @@ public class EthUtils {
 	}
 
 	/**
-	 * 检查是否安装了go-ethereum
+	 * 检查是否安装了geth
 	 * @param conn
 	 * @return
 	 */
@@ -53,7 +53,7 @@ public class EthUtils {
 		String result = "";
 		result = conn.execute(CentosConstants.CENTOS_CHECK_GETH_VERSION);
 		if(isInstalled(result)) {
-			return result;
+			return result.substring(13, 30);
 		}
 		return "未安装geth";
 	}
@@ -88,15 +88,15 @@ public class EthUtils {
 	}
 	
 	/**
-	 * centos安装eth工具
+	 * centos安装geth
 	 * @param conn
 	 * @return
 	 */
 	public String installTools(SSHUtils conn) {
 		String result = "";
-		result = conn.execute(ReadCommandUtils.getCommand("centos","installEthTools").toString());
+		result = conn.execute(ReadCommandUtils.getCommand("centos","installGeth").toString());
 			
-		return checkGo(conn);
+		return checkGeth(conn);
 	}
 	
 	/**

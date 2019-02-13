@@ -66,13 +66,13 @@ export default [
     name: 'i18n_fabric_manage',
     meta: {
       icon: 'social-snapchat',
-      title: 'fabric'
+      title: 'i18n_fabric_manage'
     },
     component: Main,
     children: [
       {
         path: 'fabric_env',
-        name: 'i18n_build_env',
+        name: 'i18n_fabric_build_env',
         meta: {
           icon: 'social-chrome-outline',
           title: '环境搭建'
@@ -81,7 +81,7 @@ export default [
       },
       {
         path: 'fabric_deploy_chaincode',
-        name: 'i18n_blockchain_deploy_chaincode',
+        name: 'i18n_fabric_deploy_chaincode',
         meta: {
           icon: 'settings',
           title: '部署合约'
@@ -90,7 +90,7 @@ export default [
       },
       {
         path: 'fabric_test_chaincode',
-        name: 'i18n_blockchain_test_chaincode',
+        name: 'i18n_fabric_test_chaincode',
         meta: {
           icon: 'bonfire',
           title: '合约测试'
@@ -104,13 +104,13 @@ export default [
     name: 'i18n_ethereum_manage',
     meta: {
       icon: 'social-snapchat-outline',
-      title: '以太坊'
+      title: 'i18n_ethereum_manage'
     },
     component: Main,
     children: [
       {
         path: 'ethereum_env',
-        name: 'i18n_build_env',
+        name: 'i18n_eth_build_env',
         meta: {
           icon: 'social-chrome-outline',
           title: '环境搭建'
@@ -119,7 +119,7 @@ export default [
       },
       {
         path: 'ethereum_deploy_chaincode',
-        name: 'i18n_blockchain_deploy_chaincode',
+        name: 'i18n_eth_deploy_chaincode',
         meta: {
           icon: 'settings',
           title: '部署合约'
@@ -128,7 +128,7 @@ export default [
       },
       {
         path: 'ethereum_test_chaincode',
-        name: 'i18n_blockchain_test_chaincode',
+        name: 'i18n_eth_test_chaincode',
         meta: {
           icon: 'bonfire',
           title: '合约测试'

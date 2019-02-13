@@ -8,6 +8,7 @@ import resource from './module/resource'
 import role from './module/role'
 import server from './module/server'
 import fabric from './module/fabric'
+import ethereum from './module/ethereum'
 
 Vue.use(Vuex)
 
@@ -28,6 +29,7 @@ export default new Vuex.Store({
     resource,
     role,
     server,
-    fabric
+    fabric,
+    ethereum
   }
 })
