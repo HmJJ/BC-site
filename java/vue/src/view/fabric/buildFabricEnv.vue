@@ -103,7 +103,7 @@
             <p>{{ fabricSourceInfo }}</p>
           </i-col>
           <i-col span="6" style="text-align:center;margin-bottom: 20px;">
-            <Button shape="circle" style="width:60%" @click="subTapBuild('fabric')">下载测试fabric源码</Button>
+            <Button shape="circle" style="width:60%" @click="subTapBuild('fabric')">下载fabric源码</Button>
           </i-col>
         </Row>
       </div>
