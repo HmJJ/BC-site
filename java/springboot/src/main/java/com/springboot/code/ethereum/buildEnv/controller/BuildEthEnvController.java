@@ -70,7 +70,7 @@ public class BuildEthEnvController {
 		case "CentOS":
 			results.put("go", ethUtils.installGo(conn));
 			results.put("git", ethUtils.centosInstallGit(conn));
-			results.put("geth", ethUtils.downloadEth(conn));
+			results.put("geth", ethUtils.installGeth(conn));
 			break;
 		case "Ubuntu":
 			break;
@@ -111,8 +111,7 @@ public class BuildEthEnvController {
 				results.put("git", ethUtils.centosInstallGit(conn));
 				break;
 			case "geth":				
-				results.put("tools-install", ethUtils.installTools(conn));
-				results.put("geth", ethUtils.downloadEth(conn));
+				results.put("geth", ethUtils.installGeth(conn));
 				break;
 			default:
 				break;
@@ -126,6 +125,25 @@ public class BuildEthEnvController {
 		
 		return JSON.toJSONString(new VueCommonRespVO(results));
 	}
+	
+	/**
+	 * 搭建以太坊私有链并测试
+	 * @param commom
+	 * @return
+	 */
+	@RequestMapping("buildPrivateChain")
+	@ResponseBody
+	public String testFabric(CommonRequestAttributes commom) {
+		SSHUtils conn = getConn(commom);
+		if(conn == null) {
+			return JSON.toJSONString(new VueCommonRespVO(VueCommonRespVO.CODE_FAILURE, "请检查服务器连接设置！"));
+		}
+		Map<String, Object> results = new HashMap<String, Object>();
+		results.put("private_chain", ethUtils.buildPrivateChain(conn));
+		
+		return JSON.toJSONString(new VueCommonRespVO(results));
+	}
+	
 	
 	/**
 	 * 获得服务器连接对象

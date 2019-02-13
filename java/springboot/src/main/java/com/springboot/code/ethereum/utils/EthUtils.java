@@ -92,7 +92,7 @@ public class EthUtils {
 	 * @param conn
 	 * @return
 	 */
-	public String installTools(SSHUtils conn) {
+	public String installGeth(SSHUtils conn) {
 		String result = "";
 		result = conn.execute(ReadCommandUtils.getCommand("centos","installGeth").toString());
 			
@@ -129,20 +129,48 @@ public class EthUtils {
 	}
 	
 	/**
-	 * 下载go-ethereum源码并且安装
+	 * 搭建以太坊私有链并测试
 	 * @param conn
 	 * @return
 	 */
-	public String downloadEth(SSHUtils conn) {
+	public String buildPrivateChain(SSHUtils conn) {
 		String result = "";
-		result = conn.execute(CentosConstants.CENTOS_CHECK_GETH_VERSION);
-		if(isInstalled(result)) {
-			return result;
+		result = conn.execute("find /opt/commands/logs -maxdepth 1 -path \"*testFabricResult.log\"");
+		if(StringUtils.isBlank(result) || !isInstalled(result)) {
+			result = execTest(conn);
 		} else {
-			result = conn.execute(ReadCommandUtils.getCommand("centos","downloadAndConfigEth").toString());
-			
-			return checkGeth(conn);
+			result = conn.execute("tail -n 9 /opt/commands/logs/testFabricResult.log");
+			if(result.contains("ERROR")) {
+				result = execTest(conn);
+			}
+			if(result.contains("All GOOD")) {
+				result = result.substring(0, 83);
+			}
 		}
+		return result;
+	}
+
+	private String execTest(SSHUtils conn) {
+		String result = "";
+		result = ReadCommandUtils.uploadCommand(conn,"linux","testFabric");
+		if(!isInstalled(result)) {
+			return "上传失败";
+		}
+		result = conn.execute("rm -rf /opt/commands/logs/testFabricResult.log");
+		result = conn.execute("bash /opt/commands/testFabric.sh > /opt/commands/logs/testFabricResult.log 2>&1 &");
+		Boolean flag = true;
+		do{
+			result = conn.execute("tail -n 9 /opt/commands/logs/testFabricResult.log");
+			if(result.contains("ERROR")) {
+				result = conn.execute("tail -n 4 /opt/commands/logs/testFabricResult.log");
+				flag = false;
+			}
+			if(result.contains("All GOOD")) {
+				result = conn.execute("tail -n 9 /opt/commands/logs/testFabricResult.log");
+				flag = false;
+			}
+		}while(flag);
+		return result;
 	}
 	
 	/**

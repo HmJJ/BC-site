@@ -1,4 +1,4 @@
-import { oneTapEth, subTapEth, checkVersionEth } from '@/api/ethereum'
+import { oneTapEth, subTapEth, checkVersionEth, buildPrivateChain } from '@/api/ethereum'
 
 export default {
   actions: {
@@ -23,6 +23,15 @@ export default {
     subTapEth ({commit}, {cmd}) {
       return new Promise((resolve, reject) => {
         subTapEth({cmd}).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    buildPrivateChain ({commit}) {
+      return new Promise((resolve, reject) => {
+        buildPrivateChain().then(res => {
           resolve(res)
         }).catch(err => {
           reject(err)

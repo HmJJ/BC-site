@@ -32,7 +32,7 @@
             <Button shape="circle" style="width:60%" @click="oneTapBuild()">开始部署</Button>
           </i-col>
           <i-col span="4" style="text-align:left;margin-bottom: 10px;">
-            <Button shape="circle" style="width:60%" @click="testGeth()">测试geth</Button>
+            <Button shape="circle" style="width:80%" @click="privateChainBuild()">搭建并测试私有链</Button>
           </i-col>
           <i-col span="24" style="text-align:center;margin-bottom: 10px;">
             <p>{{ gethStatus }}</p>
@@ -98,7 +98,7 @@ export default {
     this.init()
   },
   methods: {
-    ...mapActions(['oneTapEth', 'subTapEth', 'checkVersionEth', 'testEth']),
+    ...mapActions(['oneTapEth', 'subTapEth', 'checkVersionEth', 'buildPrivateChain']),
     init () {
       this.spinShowOneTap = true
       this.spinShowSubTap = true
@@ -157,6 +157,23 @@ export default {
           this.$Message.error(res.msg)
         }
         this.spinShowSubTap = false
+      })
+    },
+    privateChainBuild (name) {
+      this.spinShowSubTap = true
+      this.buildPrivateChain().then(res => {
+        if (res.code === 200) {
+          let results = res.data
+          if (results !== undefined) {
+            this.goInfo = (results['go'] === '' ? '待检测' : results['go'])
+            this.gitInfo = (results['git'] === '' ? '待检测' : results['git'])
+            this.ethSourceInfo = (results['eth'] === '' ? '待检测' : results['eth'])
+          }
+          this.$Message.success('部署完成')
+        } else {
+          this.$Message.error(res.msg)
+        }
+        this.spinShowOneTap = false
       })
     }
   }

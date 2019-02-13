@@ -25,3 +25,11 @@ export const subTapEth = ({name}) => {
     method: 'post'
   })
 }
+
+export const buildPrivateChain = () => {
+  return axios.request({
+    url: 'buildEthEnv/buildPrivateChain',
+    params: {},
+    method: 'post'
+  })
+}
