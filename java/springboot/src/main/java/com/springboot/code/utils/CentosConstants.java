@@ -34,6 +34,6 @@ public class CentosConstants {
     /**
      *  查看 geth版本
      */
-    public static final String CENTOS_CHECK_GETH_VERSION = "geth version";
+    public static final String CENTOS_CHECK_GETH_VERSION = "bash -lc 'geth version'";
     
 }
