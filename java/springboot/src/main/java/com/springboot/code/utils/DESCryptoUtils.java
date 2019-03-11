@@ -18,7 +18,6 @@ public class DESCryptoUtils {
 	 */
 	private static final byte[] DES_KEY = { 21, 1, -110, 82, -32, -85, -128, -65 };
 
-	@SuppressWarnings("restriction")
 	public static String encryptBasedDes(String data) {
 		String encryptedData = null;
 		try {
@@ -43,7 +42,6 @@ public class DESCryptoUtils {
 	/**
 	 * 解密
 	 */
-	@SuppressWarnings("restriction")
 	public static String decryptBasedDes(String cryptData) {
 		String decryptedData = null;
 		try {

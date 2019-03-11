@@ -53,7 +53,7 @@ public class EthUtils {
 		String result = "";
 		result = conn.execute(CentosConstants.CENTOS_CHECK_GETH_VERSION);
 		if(isInstalled(result)) {
-			return result.substring(13, 30);
+			return result.substring(13, 29);
 		}
 		return "未安装geth";
 	}

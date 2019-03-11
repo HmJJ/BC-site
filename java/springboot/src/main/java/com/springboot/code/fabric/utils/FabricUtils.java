@@ -99,7 +99,7 @@ public class FabricUtils {
 			return result;
 		} else {
 			result = ReadCommandUtils.uploadCommand(conn, "centos","installDocker");
-			result = conn.execute("bash /opt/command/installDocker.sh");
+			result = conn.execute("bash /opt/commands/installDocker.sh");
 			
 			return checkDocker(conn);
 		}
@@ -113,7 +113,7 @@ public class FabricUtils {
 	public String centosUnInstallDocker(SSHUtils conn) {
 		String result = "";
 		result = ReadCommandUtils.uploadCommand(conn, "centos","uninstallDocker");
-		result = conn.execute("bash /opt/command/uninstallDocker.sh");
+		result = conn.execute("bash /opt/commands/uninstallDocker.sh");
 		
 		return checkDocker(conn);
 	}
@@ -130,7 +130,7 @@ public class FabricUtils {
 			return result;
 		} else {
 			result = ReadCommandUtils.uploadCommand(conn, "centos","installDockerCompose");
-			result = conn.execute("bash /opt/command/installDockerCompose.sh");
+			result = conn.execute("bash /opt/commands/installDockerCompose.sh");
 			
 			return checkDockerCompose(conn);
 		}
@@ -144,7 +144,7 @@ public class FabricUtils {
 	public String centosUnInstallDockerCompose(SSHUtils conn) {
 		String result = "";
 		result = ReadCommandUtils.uploadCommand(conn, "centos","uninstallDockerCompose");
-		result = conn.execute("bash /opt/command/uninstallDockerCompose.sh");
+		result = conn.execute("bash /opt/commands/uninstallDockerCompose.sh");
 		
 		return checkDockerCompose(conn);
 	}
@@ -161,7 +161,7 @@ public class FabricUtils {
 			return result;
 		} else {
 			result = ReadCommandUtils.uploadCommand(conn, "centos","installGit");
-			result = conn.execute("bash /opt/command/installGit.sh");
+			result = conn.execute("bash /opt/commands/installGit.sh");
 			
 			return checkGit(conn);
 		}
@@ -175,7 +175,7 @@ public class FabricUtils {
 	public String centosUnInstallGit(SSHUtils conn) {
 		String result = "";
 		result = ReadCommandUtils.uploadCommand(conn, "centos","uninstallGit");
-		result = conn.execute("bash /opt/command/uninstallGit.sh");
+		result = conn.execute("bash /opt/commands/uninstallGit.sh");
 		
 		return checkGit(conn);
 	}
@@ -188,7 +188,7 @@ public class FabricUtils {
 	public String installTools(SSHUtils conn) {
 		String result = "";
 		result = ReadCommandUtils.uploadCommand(conn, "centos","installFabricTools");
-		result = conn.execute("bash /opt/command/installFabricTools.sh");
+		result = conn.execute("bash /opt/commands/installFabricTools.sh");
 		
 		return checkGo(conn);
 	}
@@ -205,7 +205,7 @@ public class FabricUtils {
 			return result;
 		} else {
 			result = ReadCommandUtils.uploadCommand(conn, "linux","installGo");
-			result = conn.execute("bash /opt/command/installGo.sh");
+			result = conn.execute("bash /opt/commands/installGo.sh");
 			
 			return checkGo(conn);
 		}
@@ -219,7 +219,7 @@ public class FabricUtils {
 	public String unInstallGo(SSHUtils conn) {
 		String result = "";
 		result = ReadCommandUtils.uploadCommand(conn, "linux","uninstallGo");
-		result = conn.execute("bash /opt/command/uninstallGo.sh");
+		result = conn.execute("bash /opt/commands/uninstallGo.sh");
 		
 		return checkGo(conn);
 	}
@@ -236,7 +236,7 @@ public class FabricUtils {
 			return result;
 		} else {
 			result = ReadCommandUtils.uploadCommand(conn, "linux","downloadFabric");
-			result = conn.execute("bash /opt/command/downloadFabric.sh");
+			result = conn.execute("bash /opt/commands/downloadFabric.sh");
 			
 			return checkFabricSource(conn);
 		}

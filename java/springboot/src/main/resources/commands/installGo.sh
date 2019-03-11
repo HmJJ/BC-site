@@ -21,6 +21,8 @@ else
     echo "GOPATH has already set"
 fi
 
+source /etc/profile
+
 flag=`go version`
 echo $flag
 
