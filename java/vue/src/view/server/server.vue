@@ -217,6 +217,8 @@ export default {
     executeDIY () {
       if (this.cmdDIY === '') {
         this.$Message.error('参数为空！')
+      } else if (RegExp(/rm/).test(this.cmdDIY)) {
+        this.$Message.error('不要搞事情哦!')
       } else {
         this.checkInfo(this.cmdDIY)
       }

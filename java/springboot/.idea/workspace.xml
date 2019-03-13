@@ -328,7 +328,7 @@
   <component name="RunManager" selected="Spring Boot.ApplicationBoot">
     <configuration name="ApplicationBoot" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.springboot.boot.ApplicationBoot" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.springboot.boot.BCSiteBoot" />
       <module name="BC-site" />
       <envs />
     </configuration>
