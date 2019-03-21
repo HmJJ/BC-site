@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import com.springboot.basic.support.CommonRequestAttributes;
 import com.springboot.code.server.vo.ServerVO;
@@ -20,8 +21,9 @@ import com.springboot.code.server.vo.ServerVO;
 * @version 创建时间：2019年1月7日下午3:45:39
 * 类说明
 */
+@Component
 public class ReadCommandUtils {
-
+	
 	/**
 	 * 获得操作命令
 	 * @param OSType
@@ -37,14 +39,17 @@ public class ReadCommandUtils {
 		
 		try {
 			switch (OSType) {
-			case "centos":					
-				path = ReadCommandUtils.class.getClassLoader().getResource("commands/centos/"+actName+".txt").getPath();
+			case "centos":
+				path = ConfigureParam.getCommandsPath() + "centos/" + actName + ".sh";
+//				path = ReadCommandUtils.class.getClassLoader().getResource("commands/centos/"+actName+".sh").getPath();
 				break;
-			case "ubuntu":					
-				path = ReadCommandUtils.class.getClassLoader().getResource("commands/ubuntu/"+actName+".txt").getPath();
+			case "ubuntu":
+				path = ConfigureParam.getCommandsPath() + "ubuntu/" + actName + ".sh";
+//				path = ReadCommandUtils.class.getClassLoader().getResource("commands/ubuntu/"+actName+".sh").getPath();
 				break;
 			default:
-				path = ReadCommandUtils.class.getClassLoader().getResource("commands/"+actName+".txt").getPath();
+				path = ConfigureParam.getCommandsPath() + actName + ".sh";
+//				path = ReadCommandUtils.class.getClassLoader().getResource("commands/"+actName+".sh").getPath();
 				break;
 			}
 		} catch (Exception e) {
@@ -113,10 +118,10 @@ public class ReadCommandUtils {
 		
 		try {
 			switch (OSType) {
-			case "centos":					
+			case "centos":
 				path = ReadCommandUtils.class.getClassLoader().getResource("commands/centos/"+actName+".sh").getPath();
 				break;
-			case "ubuntu":					
+			case "ubuntu":
 				path = ReadCommandUtils.class.getClassLoader().getResource("commands/ubuntu/"+actName+".sh").getPath();
 				break;
 			default:

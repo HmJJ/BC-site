@@ -288,7 +288,7 @@ public class FabricUtils {
 	}
 	
 	/**
-	 * 检查是否安装
+	 * 检查是否成功
 	 * @param result
 	 * @return
 	 */
