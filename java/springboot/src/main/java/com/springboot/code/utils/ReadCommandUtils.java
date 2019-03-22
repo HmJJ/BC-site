@@ -119,13 +119,16 @@ public class ReadCommandUtils {
 		try {
 			switch (OSType) {
 			case "centos":
-				path = ReadCommandUtils.class.getClassLoader().getResource("commands/centos/"+actName+".sh").getPath();
+				path = ConfigureParam.getCommandsPath() + "centos/" + actName + ".sh";
+//				path = ReadCommandUtils.class.getClassLoader().getResource("commands/centos/"+actName+".sh").getPath();
 				break;
 			case "ubuntu":
-				path = ReadCommandUtils.class.getClassLoader().getResource("commands/ubuntu/"+actName+".sh").getPath();
+				path = ConfigureParam.getCommandsPath() + "ubuntu/" + actName + ".sh";
+//				path = ReadCommandUtils.class.getClassLoader().getResource("commands/ubuntu/"+actName+".sh").getPath();
 				break;
 			default:
-				path = ReadCommandUtils.class.getClassLoader().getResource("commands/"+actName+".sh").getPath();
+				path = ConfigureParam.getCommandsPath() + actName + ".sh";
+//				path = ReadCommandUtils.class.getClassLoader().getResource("commands/"+actName+".sh").getPath();
 				break;
 			}
 		} catch (Exception e) {

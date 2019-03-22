@@ -97,7 +97,7 @@ public class SSHUtils {
 		try {
 			if (login()) {
 				session = conn.openSession();
-				session.execCommand(cmd);
+				session.execCommand("bash -lc '" + cmd + "'");
 				result = processStdout(session.getStdout(), DEFAULTCHART);
 				if (result.equals("") || result == null) {
 					result = processStdout(session.getStderr(), DEFAULTCHART);

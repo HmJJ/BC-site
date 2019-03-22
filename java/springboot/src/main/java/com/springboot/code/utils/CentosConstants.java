@@ -19,7 +19,7 @@ public class CentosConstants {
     /**
      *  Centos 查看go版本
      */
-    public static final String CENTOS_CHECK_GO_VERSION = "bash -lc 'go version'";
+    public static final String CENTOS_CHECK_GO_VERSION = "go version";
 
     /**
      *  Centos 查看git版本
@@ -34,6 +34,7 @@ public class CentosConstants {
     /**
      *  查看 geth版本
      */
-    public static final String CENTOS_CHECK_GETH_VERSION = "bash -lc 'geth version'";
+//    public static final String CENTOS_CHECK_GETH_VERSION = "bash -lc 'geth version'";
+    public static final String CENTOS_CHECK_GETH_VERSION = "geth version";
     
 }

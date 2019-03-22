@@ -1,4 +1,4 @@
-#!/bin/sh
+!/bin/sh
 cd /opt/gopath/src/github.com/hyperledger
 
 if [ -d "/fabric/" ];then
