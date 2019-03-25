@@ -13,11 +13,11 @@
 -->
 <configuration debug="false">
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->  
-    <property name="LOG_HOME" value="D:/plan_A/logFiles/bcsite" />
 <!--
+    <property name="LOG_HOME" value="D:/plan_A/logFiles/bcsite" />
     <property name="LOG_HOME" value="D:/work/log/bcsite" />
-    <property name="LOG_HOME" value="/root/java/Bc-Site/logFile" />
 -->
+    <property name="LOG_HOME" value="/root/java/Bc-Site/logFile" />
     <!-- 控制台输出 -->   
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"> 
